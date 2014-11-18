@@ -1,0 +1,7 @@
+geschke_admin_translator_gui_homepage:
+    path:     /
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:index }
+
+geschke_admin_translator_gui_bundles:
+    path:     /bundles
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:listBundles }
