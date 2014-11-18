@@ -28,21 +28,20 @@ class DefaultController extends Controller
 
     public function getLanguages($path)
     {
+        $translationfiles = array();
         try {
             $files = new \DirectoryIterator($path . 'Resources/translations/');
-            echo $path . "\n";
             foreach ($files as $fileinfo) {
                 if (!$fileinfo->isDot()) {
-                    var_dump($fileinfo->getFilename());
+                    $translationfiles[] = $fileinfo->getFilename();
                 }
             }
-
         }
         catch (\UnexpectedValueException $e) {
-            echo "no entry for $path\n";
+            // do nothing, $translationFiles array is empty
         }
 
-        return $foo = true;
+        return $translationfiles;
     }
 
     public function listBundlesAction()
@@ -54,17 +53,18 @@ class DefaultController extends Controller
 
         foreach ($bundles as $bundle => $bundleFullName) {
             $path = $kernel->locateResource('@' . $bundle);
-            $this->getLanguages($path);
+            $messageFiles = $this->getLanguages($path);
             $bundleList[] = array(
                 'name' => $bundle,
                 'fullName' => $bundleFullName,
-                'path' => $path
+                'path' => $path,
+                'messageFiles' => $messageFiles
             );
 
 
         }
         asort($bundleList);
-        die;
+
         $name = 'foo';
         return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
             array(
