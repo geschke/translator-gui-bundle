@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-11-18T13:06:37Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-11-19T17:35:05Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="aae6729d55bf60b32d4193228f8b057a95d6452f" resname="Add new language">
+        <source>Add new language</source>
+        <target state="new">Neue Sprache hinzufügen</target>
+        <jms:reference-file line="28">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
+        <source>Delete</source>
+        <target state="new">Löschen</target>
+        <jms:reference-file line="35">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5301648dcf6b53cefc9ed52999aaa92d4603cae0" resname="Edit">
+        <source>Edit</source>
+        <target state="new">Bearbeiten</target>
+        <jms:reference-file line="32">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="81e2378727c0fcd29a6c3c4f83d3e84bf4769165" resname="Welcome to Translator GUI Bundle!">
         <source>Welcome to Translator GUI Bundle!</source>
         <target>Willkommen zum Translator GUI Bundle!</target>
-        <jms:reference-file line="12">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
+        <jms:reference-file line="18">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
       </trans-unit>
     </body>
   </file>

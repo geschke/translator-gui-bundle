@@ -28,20 +28,35 @@ class DefaultController extends Controller
 
     public function getLanguages($path)
     {
-        $translationfiles = array();
+        $translationFiles = array();
         try {
             $files = new \DirectoryIterator($path . 'Resources/translations/');
             foreach ($files as $fileinfo) {
                 if (!$fileinfo->isDot()) {
-                    $translationfiles[] = $fileinfo->getFilename();
+                    $translationFiles[]['file'] = $fileinfo->getFilename();
                 }
             }
         }
         catch (\UnexpectedValueException $e) {
             // do nothing, $translationFiles array is empty
         }
+        if ($number = count($translationFiles)) {
+            for ($i = 0; $i < $number; $i++) {
+                $matched = preg_match('/^(.*)\.(.*)\.(.*)$/', strtolower($translationFiles[$i]['file']), $ma);
+                if ($matched) {
+                    if (isset($ma[3])) {
+                        $format = $ma[3];
+                        $translationFiles[$i]['format'] = $format;
+                    }
+                    if (isset($ma[2])) {
+                        $locale = $ma[2];
+                        $translationFiles[$i]['locale'] = $locale;
+                    }
+                }
+            }
+        }
 
-        return $translationfiles;
+        return $translationFiles;
     }
 
     public function listBundlesAction()
@@ -64,7 +79,6 @@ class DefaultController extends Controller
 
         }
         asort($bundleList);
-
         $name = 'foo';
         return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
             array(
