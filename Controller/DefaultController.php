@@ -2,6 +2,7 @@
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -86,6 +87,20 @@ class DefaultController extends Controller
                 'bundles' => $bundleList,
                 'name' => $name
             ));
+    }
+
+    public function addLanguageAction(Request $request)
+    {
+        $bundle = $request->get('bundle');
+
+        $languages = LocaleDefinitions::$csp_l10n_sys_locales;
+        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
+            array(
+                'mainnav' => '',
+                'bundle' => $bundle,
+                'languages' => $languages
+            ));
+
     }
 
 }

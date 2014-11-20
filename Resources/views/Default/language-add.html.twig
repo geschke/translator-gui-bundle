@@ -1,0 +1,21 @@
+{% extends "::base_admin.html.twig" %}
+
+{% block admincontent %}
+
+    <form class="form-horizontal" role="form" action="{{ path('geschke_admin_translator_gui_homepage') }}language-add/" method="post">
+    <legend>{% trans %}Add new language{% endtrans %}</legend>
+
+<input class="hide" tyoe="hidden" name="bundle" value="{{ bundle }}"/>
+    {% for locale, language in languages %}
+
+        <div class="radio">
+            <label>
+                <input type="radio" name="localeChoose" id="locale_{{ locale }}" value="{{ locale }}">&nbsp; <img src="{{ asset('bundles/geschkeadmintranslatorgui/images/flags/') }}{{ attribute(language,'country-www') }}.gif" alt="locale: {{ locale }}" /> {{ locale }} {{ attribute(language,'lang-native') }}
+            </label>
+        </div>
+    {% endfor %}
+
+        <button type="submit" class="btn btn-primary">{% trans %}Create new language file{% endtrans %}</button>
+
+    </form>
+{% endblock %}
