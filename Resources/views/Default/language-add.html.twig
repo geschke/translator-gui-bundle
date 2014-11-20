@@ -1,9 +1,14 @@
-{% extends "::base_admin.html.twig" %}
+{% extends "GeschkeAdminTranslatorGUIBundle::base_admin.html.twig" %}
+{% form_theme form 'GeschkeAdminTranslatorGUIBundle:Form:fields.html.twig' %}
+
 
 {% block admincontent %}
+    <legend>{% trans %}Add new language{% endtrans %}</legend>
+
+    {{ form(form) }}
+
 
     <form class="form-horizontal" role="form" action="{{ path('geschke_admin_translator_gui_homepage') }}language-add/" method="post">
-    <legend>{% trans %}Add new language{% endtrans %}</legend>
 
 <input class="hide" tyoe="hidden" name="bundle" value="{{ bundle }}"/>
     {% for locale, language in languages %}

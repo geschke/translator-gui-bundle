@@ -2,6 +2,7 @@
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,8 +93,42 @@ class DefaultController extends Controller
     public function addLanguageAction(Request $request)
     {
         $bundle = $request->get('bundle');
+        $translator = $this->get('translator');
+
+        $languageFile = new LanguageFile();
+        $languageFile->setBundle($bundle);
 
         $languages = LocaleDefinitions::$csp_l10n_sys_locales;
+
+        $form = $this->createFormBuilder($languageFile)
+            ->add('bundle', 'hidden')
+            ->add('locale', 'choice', array(
+                'label'     => $translator->trans("Choose language"),
+                'required'  => true,
+                'expanded' => true,
+                'choices' => array('de_DE' => 'Deutsch',
+                'en_EN' => 'Englisch','fr_FR' => 'Französisch')
+            ))
+          //  ->add('dueDate', 'date')
+            ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
+            ->getForm();
+
+        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
+            array(
+                'mainnav' => '',
+                'form' => $form->createView(),
+                'bundle' => $bundle,
+                'languages' => $languages
+            ));
+
+
+        /*        $builder->add('public', 'checkbox', array(
+                    'label'     => 'Show this entry publicly?',
+                    'required'  => false,
+                ));
+
+        */
+
         return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
             array(
                 'mainnav' => '',

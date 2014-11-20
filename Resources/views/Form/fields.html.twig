@@ -4,7 +4,6 @@
             {{ form_label(form) }}
             <div class="col-sm-10">
             {{ form_widget(form) }}
-
             {% if form_errors(form) %}
                 <span class="help-block">   {{ form_errors(form) }}</span>
             {% endif %}
@@ -36,7 +35,7 @@
 {%- endblock form_start %}
 
 
-{% block form_label -%}
+{% block foo_form_label -%}
     {% if label is not sameas(false) -%}
         {% if not compound -%}
             {% set label_attr = label_attr|merge({'for': id, 'class': 'col-sm-2 control-label'}) %}
@@ -49,7 +48,7 @@
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
     {%- endif %}
-{%- endblock form_label %}
+{%- endblock foo_form_label %}
 
 
 
@@ -66,8 +65,10 @@
 {%- endblock checkbox_widget %}
 
 {% block radio_widget -%}
-    <div class="radio">
-    <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+<div class="radio">
+    <label>
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    </label>
     </div>
 {%- endblock radio_widget %}
 
