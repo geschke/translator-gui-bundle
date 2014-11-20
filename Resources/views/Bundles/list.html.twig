@@ -34,7 +34,12 @@
                     <button type="button" class="btn btn-default btn-xs">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {% trans %}Delete{% endtrans %}
                     </button>
-
+{% for messageFile in bundle.messageFiles if messageFile|length %}
+            <li><img src="{{ asset('bundles/geschkeadmintranslatorgui/images/flags/de.gif') }}" alt="{{ messageFile.locale }}" />
+                {{ messageFile.locale }}</li>
+    {% else %}
+    {% trans %}No message file found.{% endtrans %}
+                    {% endfor %}
 
                     <div class="btn-toolbar">
                         <div class="btn-group">
