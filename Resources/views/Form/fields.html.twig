@@ -35,7 +35,7 @@
 {%- endblock form_start %}
 
 
-{% block foo_form_label -%}
+{% block form_label -%}
     {% if label is not sameas(false) -%}
         {% if not compound -%}
             {% set label_attr = label_attr|merge({'for': id, 'class': 'col-sm-2 control-label'}) %}
@@ -48,14 +48,38 @@
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
     {%- endif %}
-{%- endblock foo_form_label %}
-
+{%- endblock form_label %}
 
 
 {% block form_widget_simple -%}
     {% set type = type|default('text') -%}
     <input class="form-control" type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
 {%- endblock form_widget_simple %}
+
+
+{% block choice_widget_expanded -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- for child in form %}
+            {{- form_widget(child) -}}
+{%  set label = child.vars.form.vars.value %}
+       {% if label is not sameas(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id, 'class': 'cc_control-label'}) %}
+        {%- endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('cc1_control-label') ~ ' required')|trim}) %}
+        {%- endif %}
+        {% if label is empty -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+    {%- endif %}
+
+
+    {#        {{- form_label_widget_expanded(child) -}} #}
+        {% endfor -%}
+    </div>
+{% endblock choice_widget_expanded %}
 
 
 {% block checkbox_widget -%}
