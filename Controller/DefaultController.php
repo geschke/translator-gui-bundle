@@ -98,7 +98,16 @@ class DefaultController extends Controller
         $languageFile = new LanguageFile();
         $languageFile->setBundle($bundle);
 
-        $languages = LocaleDefinitions::$csp_l10n_sys_locales;
+        $locales = LocaleDefinitions::$csp_l10n_sys_locales;
+
+        $assets = $this->container->get('templating.helper.assets');
+
+        $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
+
+
+        foreach ($locales as $locale => $localeData ) {
+            $choices[$locale] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $locale . '" /> ' . $locale . ' ' . $localeData['lang-native'] ;
+        }
 
         $form = $this->createFormBuilder($languageFile)
             ->add('bundle', 'hidden')
@@ -106,35 +115,29 @@ class DefaultController extends Controller
                 'label'     => $translator->trans("Choose language"),
                 'required'  => true,
                 'expanded' => true,
-                'choices' => array('de_DE' => 'Deutsch',
-                'en_EN' => 'Englisch','fr_FR' => 'Französisch')
+                'choices' => $choices
             ))
           //  ->add('dueDate', 'date')
             ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
             ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            // perform some action, such as saving the task to the database
+
+            echo "form submitted";
+            die;
+            return $this->redirect($this->generateUrl('task_success'));
+        }
 
         return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
             array(
                 'mainnav' => '',
                 'form' => $form->createView(),
                 'bundle' => $bundle,
-                'languages' => $languages
+                'languages' => $locales
             ));
 
-
-        /*        $builder->add('public', 'checkbox', array(
-                    'label'     => 'Show this entry publicly?',
-                    'required'  => false,
-                ));
-
-        */
-
-        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
-            array(
-                'mainnav' => '',
-                'bundle' => $bundle,
-                'languages' => $languages
-            ));
 
     }
 

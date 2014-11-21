@@ -1,0 +1,6 @@
+Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile:
+    properties:
+        bundle:
+            - NotBlank: ~
+        locale:
+            - NotBlank: ~

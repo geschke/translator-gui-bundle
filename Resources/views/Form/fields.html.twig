@@ -61,7 +61,7 @@
     <div {{ block('widget_container_attributes') }}>
         {%- for child in form %}
             {{- form_widget(child) -}}
-{%  set label = child.vars.form.vars.value %}
+        {# {%  set label = child.vars.form.vars.value %}
        {% if label is not sameas(false) -%}
         {% if not compound -%}
             {% set label_attr = label_attr|merge({'for': id, 'class': 'cc_control-label'}) %}
@@ -74,9 +74,8 @@
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
     {%- endif %}
-
-
-    {#        {{- form_label_widget_expanded(child) -}} #}
+#}
+    {#        {{- form_label -}} #}
         {% endfor -%}
     </div>
 {% endblock choice_widget_expanded %}
@@ -91,8 +90,7 @@
 {% block radio_widget -%}
 <div class="radio">
     <label>
-        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
-    </label>
+        <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} /> {{ label|raw }}</label>
     </div>
 {%- endblock radio_widget %}
 
