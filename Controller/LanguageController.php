@@ -5,66 +5,54 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
+use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\Dumper\XliffFileDumper;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
 
-class DefaultController extends Controller
+class LanguageController extends Controller
 {
-    public function indexAction(Request $request)
+    public function listTranslationsAction(Request $request)
     {
 
-        $locale = $request->getLocale();
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
 
-        $request->setLocale('de');
-
-        $translator = $this->get('translator');
-        $welcome = $translator->trans("Welcome to Translator GUI Bundle!");
-
-        $name = 'foo';
-        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:index.html.twig',
-            array(
-                'mainnav' => '',
-                'name' => $name,
-                'welcome' => $welcome
-            ));
-    }
-
-
-
-    public function listBundlesAction()
-    {
         $bundles = $this->container->getParameter('kernel.bundles');
 
         $kernel = $this->container->get('kernel');
 
+        $path = $kernel->locateResource('@' . $bundle);
+
         $localeFiles = new LocaleFiles();
 
-        foreach ($bundles as $bundle => $bundleFullName) {
-            $path = $kernel->locateResource('@' . $bundle);
-            $messageFiles = $localeFiles->getLanguages($path);
-            $bundleList[] = array(
-                'name' => $bundle,
-                'fullName' => $bundleFullName,
-                'path' => $path,
-                'messageFiles' => $messageFiles
-            );
-
-
+        $files = $localeFiles->getLanguages($path);
+        $localeFile = null;
+        foreach ($files as $localeData) {
+            if ($localeData['locale'] == $locale) {
+                echo "locale file found!";
+                $localeFile = $localeData;
+                break;
+            }
         }
-        asort($bundleList);
-        $name = 'foo';
-        return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
-            array(
-                'mainnav' => '',
-                'bundles' => $bundleList,
-                'name' => $name
-            ));
-    }
 
-    public function addLanguageAction(Request $request)
-    {
-        $bundle = $request->get('bundle');
+        var_dump($path);
+var_dump($localeFile);
+        $filename = $path . 'Resources/translations/' . $localeFile['file'];
+        // todo maybe: load other than xliff files
+        // switch format, if xlf or xliff...
         $translator = $this->get('translator');
+
+      //  $handle = fopen($filename,'r');
+        $foo = new XliffLoader();
+        $messages = $foo->load($filename,$locale);
+var_dump($messages);
+//        $translator->addLoader('xliff', new XliffFileLoader());
+//        $translator->addResource('xliff', $filename, $locale);
+
+        die;
+            $translator = $this->get('translator');
 
         $languageFile = new LanguageFile();
         $languageFile->setBundle($bundle);
