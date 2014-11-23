@@ -7,6 +7,7 @@ use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
 use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
@@ -99,4 +100,23 @@ var_dump($messages);
 
     }
 
-}
+    public function rescanTranslationsAction(Request $request)
+    {
+
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
+        sleep(3);
+        $response = new JsonResponse();
+        $response->setData(array(
+            'success' => false,
+
+            'bundle' => $bundle,
+            'locale' => $locale,
+            'data' => 123
+        ));
+
+        return $response;
+    }
+
+
+    }

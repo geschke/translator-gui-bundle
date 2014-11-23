@@ -14,3 +14,8 @@ geschke_admin_translator_gui_language_add:
 geschke_admin_translator_gui_language_edit:
     path:     /language-edit/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:listTranslations }
+
+
+geschke_admin_translator_gui_language_rescan:
+    path:     /language-rescan/
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:rescanTranslations }
