@@ -39,21 +39,22 @@ class LanguageController extends Controller
         }
 
         var_dump($path);
-var_dump($localeFile);
+        var_dump($localeFile);
         $filename = $path . 'Resources/translations/' . $localeFile['file'];
         // todo maybe: load other than xliff files
         // switch format, if xlf or xliff...
         $translator = $this->get('translator');
 
-      //  $handle = fopen($filename,'r');
-        $foo = new XliffLoader();
-        $messages = $foo->load($filename,$locale);
-var_dump($messages);
+        //  $handle = fopen($filename,'r');
+        //$foo = new XliffLoader();
+        $foo = new XliffFileLoader();
+        $messages = $foo->load($filename, $locale);
+        var_dump($messages);
 //        $translator->addLoader('xliff', new XliffFileLoader());
 //        $translator->addResource('xliff', $filename, $locale);
 
         die;
-            $translator = $this->get('translator');
+        $translator = $this->get('translator');
 
         $languageFile = new LanguageFile();
         $languageFile->setBundle($bundle);
@@ -65,19 +66,19 @@ var_dump($messages);
         $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
 
 
-        foreach ($locales as $locale => $localeData ) {
-            $choices[$locale] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $locale . '" /> ' . $locale . ' ' . $localeData['lang-native'] ;
+        foreach ($locales as $locale => $localeData) {
+            $choices[$locale] = '<img src="' . $baseUrl . $localeData['country-www'] . '.gif" alt="locale: ' . $locale . '" /> ' . $locale . ' ' . $localeData['lang-native'];
         }
 
         $form = $this->createFormBuilder($languageFile)
             ->add('bundle', 'hidden')
             ->add('locale', 'choice', array(
-                'label'     => $translator->trans("Choose language"),
-                'required'  => true,
+                'label' => $translator->trans("Choose language"),
+                'required' => true,
                 'expanded' => true,
                 'choices' => $choices
             ))
-          //  ->add('dueDate', 'date')
+            //  ->add('dueDate', 'date')
             ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
             ->getForm();
 
@@ -107,9 +108,17 @@ var_dump($messages);
         $locale = $request->get('locale');
         sleep(3);
         $response = new JsonResponse();
+        /*
+         {
+success: false,
+error: {
+errorcode: "7y7",
+displaymsg: "resource not found error"
+}
+}
+         */
         $response->setData(array(
             'success' => false,
-
             'bundle' => $bundle,
             'locale' => $locale,
             'data' => 123
@@ -119,4 +128,4 @@ var_dump($messages);
     }
 
 
-    }
+}
