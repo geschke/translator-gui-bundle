@@ -5,10 +5,8 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
-use JMS\TranslationBundle\Model\MessageCatalogue;
-//use JMS\TranslationBundle\Translation\Loader\XliffLoader;
+use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 
-use Geschke\Bundle\Admin\TranslatorGUIBundle\Loader\XliffLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,13 +50,33 @@ class LanguageController extends Controller
         $foo = new XliffLoader();
         //$foo = new XliffFileLoader();
         $messages = $foo->load($filename, $locale);
-        var_dump($messages);
+
+
+        $reflect = new \ReflectionClass($messages);
+        $props   = $reflect->getProperties();
+
+
+        foreach ($props as $prop) {
+            print $prop->getName() . "\n";
+        }
+
+        var_dump($props);
+
+$refDomains = $reflect->getProperty('domains');
+        $refDomains->setAccessible(true);
+
+        $r = $refDomains->getValue($messages);
+        $messageCollection = $r['messages'];
+        $messages2 = $messageCollection->all();
+
+        var_dump($messages2);
         //$mc = new MessageCatalogue();
         //$mc2 = new \Symfony\Component\Translation\MessageCatalogue();
 
 //        $translator->addLoader('xliff', new XliffFileLoader());
 //        $translator->addResource('xliff', $filename, $locale);
 
+        
         die;
         $translator = $this->get('translator');
 
