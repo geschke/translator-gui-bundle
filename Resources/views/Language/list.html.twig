@@ -1,0 +1,185 @@
+{% extends "GeschkeAdminTranslatorGUIBundle::base_admin.html.twig" %}
+
+{%  block admincontent %}
+    {% trans %}Messages{% endtrans %}
+
+
+    {% for flashMessage in app.session.flashbag.get('message') %}
+
+            <div class="alert alert-info">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <table class="table table-striped ">
+        <thead>
+        <tr>
+            <th>Message</th>
+               <th>Aktion</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for message in messages %}
+
+            <tr class="bundle-item" data-name="{{ message }}">
+                <td class="bundle-name" id="bundle_{{ message }}">{{ message }}</td>
+                <td>
+                    <p><button class="btn-action-language-add" type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {% trans %}Add new language{% endtrans %}
+                    </button>
+</p>
+
+        </td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    <!-- Modal -->
+    <div id="modalDelete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title" id="myModalLabel"> {% trans %}Delete language file{% endtrans %}</h3>
+                </div>
+                <div class="modal-body">
+                    <p> {% trans %}You are about to delete <strong></strong> from "<strong></strong>" permanently.<br/>Are you sure you wish to delete these files?{% endtrans %}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans %}Cancel{% endtrans %}</button>
+                    <button class="btn btn-primary do-delete-action">{% trans %}Delete file{% endtrans %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal js-loading-bar">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">{% trans %}Scanning progress...{% endtrans %}</h4>
+      </div>
+      <div class="modal-body">
+ <div class="rescan-success">       <p>{% trans %}Rescan successfully finished!{% endtrans %}</p>
+      </div>
+          <div class="rescan-error"><p>An error occurred in scanning process.</p>
+          </div>
+          <div class="rescan-loading" style="text-align: center;"><img src="{{ asset('bundles/geschkeadmintranslatorgui/images/ajax-loader.gif') }}" alt="loading..." />
+</div>
+      </div>
+      <div class="modal-footer">
+          <div class="rescan-ready">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+      </div>
+    </div><!-- /.modal-content -->
+            </div>
+        </div>
+
+    <script type="text/javascript">
+        var bundle = undefined; // maybe later: encapsulate in object or something...
+        var locale = undefined;
+        var adminUrl = '{{ path('geschke_admin_translator_gui_homepage') }}';
+        $(function () {
+            $('.btn-action-language-add').click(function () {
+                var options = {};
+                bundle = $(this).parents('.bundle-item').attr('data-name');
+                //console.log(bundle);
+                window.location = adminUrl  + 'language-add/?bundle=' + bundle;
+//                $('#modalDelete').modal(options);
+
+            });
+
+            $('.btn-action-delete').click(function () {
+                var options = {};
+                bundle = $(this).parents('.bundle-item').attr('data-name');
+                locale = $(this).attr('data-locale');
+                console.log(bundle);
+                console.log(locale);
+                $('#modalDelete').modal(options);
+
+            });
+
+            $('.do-delete-action').click(function () {
+                $('#modalDelete').modal('hide');
+                var deleteBundle = bundle;
+                var deleteLocale = locale;
+                bundle = undefined;
+                locale = undefined;
+                window.location = adminUrl  + 'language-delete/?bundle=' + deleteBundle + '&locale=' + deleteLocale;
+            });
+
+            $('.btn-action-edit').click(function () {
+                var options = {};
+                bundle = $(this).parents('.bundle-item').attr('data-name');
+                locale = $(this).attr('data-locale');
+                window.location = adminUrl  + 'language-edit/?bundle=' + bundle + '&locale=' + locale;
+
+            });
+            $('.btn-action-rescan2').click(function () {
+                var options = {};
+                bundle = $(this).parents('.bundle-item').attr('data-name');
+                locale = $(this).attr('data-locale');
+                window.location = adminUrl  + 'language-rescan/?bundle=' + bundle + '&locale=' + locale;
+
+            });
+
+            $('.btn-action-rescan').click(function() {
+                var modal = $('.js-loading-bar');
+                //        bar = modal.find('.progress-bar');
+                bundle = $(this).parents('.bundle-item').attr('data-name');
+                locale = $(this).attr('data-locale');
+                var url =  adminUrl  + 'language-rescan/?bundle=' + bundle + '&locale=' + locale;
+
+                $('.rescan-ready').hide();
+                $('.rescan-success').hide();
+                $('.rescan-error').hide();
+                $('.rescan-loading').show();
+
+                modal.modal('show');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { bundle: bundle, locale: locale }
+                })
+                        .done(function( msg ) {
+                            $('.rescan-ready').show();
+                            $('.rescan-loading').hide();
+                            if (msg.success ==  true) {
+                                $('.rescan-success').show();
+                                $('.rescan-error').hide();
+                                console.log("ok");
+                            } else {
+                                $('.rescan-success').hide();
+                                $('.rescan-error').show();
+
+                                console.log("false");
+                            }
+
+                            console.log(msg);
+
+                        });
+
+                /*
+                bar.addClass('animate');
+
+                setTimeout(function() {
+                    bar.removeClass('animate');
+                    modal.modal('hide');
+                }, 1500);*/
+            });
+
+        });
+
+    </script>
+
+
+{%  endblock %}

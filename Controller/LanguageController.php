@@ -33,14 +33,14 @@ class LanguageController extends Controller
         $localeFile = null;
         foreach ($files as $localeData) {
             if ($localeData['locale'] == $locale) {
-                echo "locale file found!";
+                //echo "locale file found!";
                 $localeFile = $localeData;
                 break;
             }
         }
 
-        var_dump($path);
-        var_dump($localeFile);
+       // var_dump($path);
+       // var_dump($localeFile);
         $filename = $path . 'Resources/translations/' . $localeFile['file'];
         // todo maybe: load other than xliff files
         // switch format, if xlf or xliff...
@@ -53,73 +53,39 @@ class LanguageController extends Controller
 
 
         $reflect = new \ReflectionClass($messages);
-        $props   = $reflect->getProperties();
+  //      $props   = $reflect->getProperties();
 
 
-        foreach ($props as $prop) {
+      /*  foreach ($props as $prop) {
             print $prop->getName() . "\n";
         }
-
-        var_dump($props);
+*/
+       // var_dump($props);
 
 $refDomains = $reflect->getProperty('domains');
         $refDomains->setAccessible(true);
 
         $r = $refDomains->getValue($messages);
         $messageCollection = $r['messages'];
-        $messages2 = $messageCollection->all();
+        $messageArray = $messageCollection->all();
 
-        var_dump($messages2);
-        //$mc = new MessageCatalogue();
-        //$mc2 = new \Symfony\Component\Translation\MessageCatalogue();
+        //var_dump($messageArray);
+        foreach ($messageArray as $key => $message) {
+            $messageKeys[] = $key;
+        }
+
+      //  var_dump($messageKeys);
 
 //        $translator->addLoader('xliff', new XliffFileLoader());
 //        $translator->addResource('xliff', $filename, $locale);
 
-        
-        die;
-        $translator = $this->get('translator');
-
-        $languageFile = new LanguageFile();
-        $languageFile->setBundle($bundle);
-
-        $locales = LocaleDefinitions::$csp_l10n_sys_locales;
-
-        $assets = $this->container->get('templating.helper.assets');
-
-        $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
 
 
-        foreach ($locales as $locale => $localeData) {
-            $choices[$locale] = '<img src="' . $baseUrl . $localeData['country-www'] . '.gif" alt="locale: ' . $locale . '" /> ' . $locale . ' ' . $localeData['lang-native'];
-        }
-
-        $form = $this->createFormBuilder($languageFile)
-            ->add('bundle', 'hidden')
-            ->add('locale', 'choice', array(
-                'label' => $translator->trans("Choose language"),
-                'required' => true,
-                'expanded' => true,
-                'choices' => $choices
-            ))
-            //  ->add('dueDate', 'date')
-            ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-
-            echo "form submitted";
-            die;
-            return $this->redirect($this->generateUrl('task_success'));
-        }
-
-        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
+        return $this->render('GeschkeAdminTranslatorGUIBundle:Language:list.html.twig',
             array(
                 'mainnav' => '',
-                'form' => $form->createView(),
                 'bundle' => $bundle,
-                'languages' => $locales
+                'messages' => $messageKeys
             ));
 
 
