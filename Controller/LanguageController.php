@@ -5,7 +5,10 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
-use JMS\TranslationBundle\Translation\Loader\XliffLoader;
+use JMS\TranslationBundle\Model\MessageCatalogue;
+//use JMS\TranslationBundle\Translation\Loader\XliffLoader;
+
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Loader\XliffLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,10 +49,13 @@ class LanguageController extends Controller
         $translator = $this->get('translator');
 
         //  $handle = fopen($filename,'r');
-        //$foo = new XliffLoader();
-        $foo = new XliffFileLoader();
+        $foo = new XliffLoader();
+        //$foo = new XliffFileLoader();
         $messages = $foo->load($filename, $locale);
         var_dump($messages);
+        //$mc = new MessageCatalogue();
+        //$mc2 = new \Symfony\Component\Translation\MessageCatalogue();
+
 //        $translator->addLoader('xliff', new XliffFileLoader());
 //        $translator->addResource('xliff', $filename, $locale);
 
