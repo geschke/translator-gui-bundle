@@ -73,9 +73,9 @@ $refDomains = $reflect->getProperty('domains');
         foreach ($messageArray as $key => $message) {
             $messageKeys[] = $key;
         }
-
-      //  var_dump($messageKeys);
-
+//var_dump($messageArray);
+//        var_dump($messageKeys);
+//die;
 //        $translator->addLoader('xliff', new XliffFileLoader());
 //        $translator->addResource('xliff', $filename, $locale);
 
@@ -85,7 +85,7 @@ $refDomains = $reflect->getProperty('domains');
             array(
                 'mainnav' => '',
                 'bundle' => $bundle,
-                'messages' => $messageKeys
+                'messages' => $messageArray
             ));
 
 
