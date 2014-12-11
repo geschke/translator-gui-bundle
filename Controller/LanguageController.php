@@ -3,6 +3,7 @@
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\MessageTranslation;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
 use JMS\TranslationBundle\Translation\Loader\XliffLoader;
@@ -79,13 +80,27 @@ $refDomains = $reflect->getProperty('domains');
 //        $translator->addLoader('xliff', new XliffFileLoader());
 //        $translator->addResource('xliff', $filename, $locale);
 
+        $messageTranslation = new MessageTranslation();
+
+        $form = $this->createFormBuilder($messageTranslation)
+            ->add('locale', 'hidden')
+            ->add('message', 'text')
+            ->add('translation', 'text')
+
+            //  ->add('dueDate', 'date')
+           // ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
+            ->getForm();
+
+
 
 
         return $this->render('GeschkeAdminTranslatorGUIBundle:Language:list.html.twig',
             array(
                 'mainnav' => '',
                 'bundle' => $bundle,
-                'messages' => $messageArray
+                'messages' => $messageArray,
+                'form' => $form->createView(),
+
             ));
 
 
@@ -108,7 +123,7 @@ displaymsg: "resource not found error"
 }
          */
         $response->setData(array(
-            'success' => false,
+            'success' => true,
             'bundle' => $bundle,
             'locale' => $locale,
             'data' => 123
