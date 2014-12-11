@@ -11,6 +11,9 @@ use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 
@@ -98,6 +101,7 @@ $refDomains = $reflect->getProperty('domains');
             array(
                 'mainnav' => '',
                 'bundle' => $bundle,
+                'locale' => $locale,
                 'messages' => $messageArray,
                 'form' => $form->createView(),
 
@@ -132,5 +136,37 @@ displaymsg: "resource not found error"
         return $response;
     }
 
+
+    public function translateAction(Request $request)
+    {
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
+        $messageId = $request->get('messageId');
+
+        // get message from file...
+        // fill MessageTranslation object
+        $message = new MessageTranslation();
+        $message->setLocale($locale);
+        $message->setMessage($messageId);
+        $message->setTranslation($messageId . " translated");
+
+
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($message, 'json');
+        //sleep(3);
+        $response = new JsonResponse();
+        $response->setData(array(
+            'success' => true,
+            'message' => $jsonContent,
+            'bundle' => $bundle,
+            'locale' => $locale
+        ));
+
+        return $response;
+    }
 
 }
