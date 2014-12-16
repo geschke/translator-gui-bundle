@@ -15,7 +15,6 @@ class MessageTranslation
     protected $message;
     protected $translation;
 
-
     public function getLocale()
     {
         return $this->locale;

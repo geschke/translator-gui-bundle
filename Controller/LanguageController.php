@@ -4,12 +4,14 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\MessageTranslation;
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\MessageTranslationResponse;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
 use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -150,22 +152,22 @@ displaymsg: "resource not found error"
         $message->setMessage($messageId);
         $message->setTranslation($messageId . " translated");
 
-
         $encoders = array(new JsonEncoder());
         $normalizers = array(new GetSetMethodNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
 
-        $jsonContent = $serializer->serialize($message, 'json');
-        //sleep(3);
-        $response = new JsonResponse();
-        $response->setData(array(
-            'success' => true,
-            'message' => $jsonContent,
-            'bundle' => $bundle,
-            'locale' => $locale
-        ));
+        $messageResponse = new MessageTranslationResponse();
+        $messageResponse->setLocale($locale);
+        $messageResponse->setBundle($bundle);
+        $messageResponse->setSuccess(true);
+        $messageResponse->setMessageTranslation($message);
 
+        $jsonContent = $serializer->serialize($messageResponse, 'json');
+        //sleep(3);
+        $response = new Response();
+        $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
