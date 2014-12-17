@@ -67,11 +67,11 @@
 
 
     <script type="text/javascript">
-        var bundle = "{{  bundle }}" || undefined; // maybe later: encapsulate in object or something...
+        var bundle = "{{ bundle }}" || undefined; // maybe later: encapsulate in object or something...
         var locale = "{{ locale }}" || undefined;
 
-        console.log(bundle);
-        console.log(locale);
+        //console.log(bundle);
+        //console.log(locale);
 
 
         var adminUrl = '{{ path('geschke_admin_translator_gui_homepage') }}';
@@ -119,7 +119,9 @@
                 console.log(messageId);
                 locale = $(this).attr('data-locale');
                 var url =  adminUrl  + 'language-translate/';
-
+                $('#form_locale').val(locale);
+                $('#form_message').val('');
+                $('#form_translation').val('');
 
                 modal.modal('show');
 
@@ -144,12 +146,9 @@
                                 console.log("false");
                             }
                             */
-                            console.log(msg);
-                           console.log(msg.messageTranslation.message);
                            $('#form_message').val(msg.messageTranslation.message);
 
                            $('#form_translation').val(msg.messageTranslation.translation);
-                           console.log(msg.messageTranslation.translation);
                         });
 
                 /*
@@ -160,6 +159,46 @@
                     modal.modal('hide');
                 }, 1500);*/
             });
+
+            $('.do-edit-action').click(function () {
+                var modal = $('#modalTranslate');
+                var url =  adminUrl  + 'language-translate/';
+
+
+                var data = {
+                    bundle: bundle,
+                    locale:  $('#form_locale').val(),
+                    message: $('#form_message').val(),
+                    translation:  $('#form_translation').val()
+                };
+console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data
+                })
+                        .done(function( msg ) {
+                            console.log(msg);
+
+                            /*$('.rescan-ready').show();
+                             $('.rescan-loading').hide();
+                             if (msg.success ==  true) {
+                             $('.rescan-success').show();
+                             $('.rescan-error').hide();
+                             console.log("ok");
+                             } else {
+                             $('.rescan-success').hide();
+                             $('.rescan-error').show();
+
+                             console.log("false");
+                             }
+                             */
+                        });
+
+                console.log("do-edit-action");
+            });
+            modal.modal('hide');
+
 
         });
 

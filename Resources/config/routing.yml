@@ -24,3 +24,10 @@ geschke_admin_translator_gui_language_rescan:
 geschke_admin_translator_gui_language_translate:
     path:     /language-translate/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:translate }
+    methods:  [GET]
+
+geschke_admin_translator_gui_language_translate_process:
+    path:     /language-translate/
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:processTranslate }
+    methods:  [POST]
+

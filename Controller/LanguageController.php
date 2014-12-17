@@ -89,7 +89,7 @@ $refDomains = $reflect->getProperty('domains');
 
         $form = $this->createFormBuilder($messageTranslation)
             ->add('locale', 'hidden')
-            ->add('message', 'text')
+            ->add('message', 'text', array('disabled' => true))
             ->add('translation', 'text')
 
             //  ->add('dueDate', 'date')
@@ -171,4 +171,17 @@ displaymsg: "resource not found error"
         return $response;
     }
 
-}
+    public function processTranslateAction(Request $request)
+    {
+        var_dump($request->get('locale'));
+        var_dump($request->get('bundle'));
+        $response = new JsonResponse();
+        $response->setData(array(
+            'success' => true,
+        ));
+
+        return $response;
+
+    }
+
+    }
