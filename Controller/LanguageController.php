@@ -147,6 +147,16 @@ displaymsg: "resource not found error"
 
         // get message from file...
         // fill MessageTranslation object
+
+
+        $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
+
+        $foo = $localeMessages->getMessage($bundle, $locale, $messageId);
+
+        var_dump($foo)
+;
+        die;
+
         $message = new MessageTranslation();
         $message->setLocale($locale);
         $message->setMessage($messageId);

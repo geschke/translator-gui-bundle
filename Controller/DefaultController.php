@@ -23,7 +23,7 @@ class DefaultController extends Controller
         $name = 'foo';
         return $this->render('GeschkeAdminTranslatorGUIBundle:Default:index.html.twig',
             array(
-                'mainnav' => '',
+                'mainnav' => 'index',
                 'name' => $name,
                 'welcome' => $welcome
             ));
@@ -55,7 +55,7 @@ class DefaultController extends Controller
         $name = 'foo';
         return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
             array(
-                'mainnav' => '',
+                'mainnav' => 'bundles',
                 'bundles' => $bundleList,
                 'name' => $name
             ));

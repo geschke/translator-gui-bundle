@@ -171,7 +171,7 @@
                     message: $('#form_message').val(),
                     translation:  $('#form_translation').val()
                 };
-console.log(data);
+                console.log(data);
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -196,8 +196,8 @@ console.log(data);
                         });
 
                 console.log("do-edit-action");
+                modal.modal('hide');
             });
-            modal.modal('hide');
 
 
         });
