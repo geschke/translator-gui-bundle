@@ -10,3 +10,7 @@ services:
         class:   "%geschke_bundle_admin_translatorguibundle.locale_messages.class%"
         arguments: [@kernel]
 
+    geschke_bundle_admin_translatorguibundle.twig.extension:
+        class: Geschke\Bundle\Admin\TranslatorGUIBundle\Extension\TwigExtension
+        tags:
+            - { name: twig.extension }

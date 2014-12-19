@@ -15,12 +15,37 @@ class LocaleMessages extends ContainerAware
 {
 
     private $kernel;
-  //  private $translator;
+
+    //  private $translator;
 
     public function __construct($kernel)
     {
         $this->kernel = $kernel;
 //        $this->translator = $translator;
+    }
+
+    public function getFilename($bundle, $locale)
+    {
+        $path = $this->kernel->locateResource('@' . $bundle);
+
+        $localeFiles = new LocaleFiles();
+
+        $files = $localeFiles->getLanguages($path);
+        $localeFile = null;
+
+        // todo here: regard translation domains. default is "messages", but it stops at first match
+        foreach ($files as $localeData) {
+            if ($localeData['locale'] == $locale) {
+                //echo "locale file found!";
+                $localeFile = $localeData;
+                break;
+            }
+        }
+
+        // var_dump($path);
+        // var_dump($localeFile);
+        $filename = $path . 'Resources/translations/' . $localeFile['file'];
+        return $filename;
     }
 
     public function getMessage($bundle, $locale, $messageKey)
@@ -32,6 +57,8 @@ class LocaleMessages extends ContainerAware
 
         $files = $localeFiles->getLanguages($path);
         $localeFile = null;
+
+        // todo here: regard translation domains. default is "messages", but it stops at first match
         foreach ($files as $localeData) {
             if ($localeData['locale'] == $locale) {
                 //echo "locale file found!";
@@ -70,11 +97,25 @@ class LocaleMessages extends ContainerAware
         $messageCollection = $r['messages'];
         $messageArray = $messageCollection->all();
 
-        //var_dump($messageArray);
-        foreach ($messageArray as $key => $message) {
-            $messageKeys[] = $key;
+        if (isset($messageArray[$messageKey])) {
+            return $messageArray[$messageKey];
         }
-        var_dump($messageKeys);
+        return false;
+    }
+
+    public function updateMessage($bundle, $locale, $messageKey, $translation)
+    {
+        // todo: support another translation formats, not only xliff...
+        $container = $this->kernel->getContainer();
+        $updater = $container->get('jms_translation.updater');
+        $filename = $this->getFilename($bundle, $locale);
+        // todo: check filename, does it exist?
+//        $file = '/vol/www/test.geschke.net/htdocs/geschkenet/website/src/Geschke/Bundle/Admin/TranslatorGUIBundle/Resources/translations/messages.de.xliff';
+
+        $updater->updateTranslation(
+            $filename, 'xliff', 'messages', $locale, $messageKey,
+            $translation
+        );
         return true;
     }
 

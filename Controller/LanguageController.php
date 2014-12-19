@@ -89,8 +89,8 @@ $refDomains = $reflect->getProperty('domains');
 
         $form = $this->createFormBuilder($messageTranslation)
             ->add('locale', 'hidden')
-            ->add('message', 'text', array('disabled' => true))
-            ->add('translation', 'text')
+            ->add('message', 'textarea', array('disabled' => true))
+            ->add('translation', 'textarea')
 
             //  ->add('dueDate', 'date')
            // ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
@@ -147,34 +147,34 @@ displaymsg: "resource not found error"
 
         // get message from file...
         // fill MessageTranslation object
-
-
-        $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
-
-        $foo = $localeMessages->getMessage($bundle, $locale, $messageId);
-
-        var_dump($foo)
-;
-        die;
-
-        $message = new MessageTranslation();
-        $message->setLocale($locale);
-        $message->setMessage($messageId);
-        $message->setTranslation($messageId . " translated");
-
         $encoders = array(new JsonEncoder());
         $normalizers = array(new GetSetMethodNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
-
         $messageResponse = new MessageTranslationResponse();
         $messageResponse->setLocale($locale);
         $messageResponse->setBundle($bundle);
-        $messageResponse->setSuccess(true);
-        $messageResponse->setMessageTranslation($message);
 
+        $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
+
+        $messageInstance = $localeMessages->getMessage($bundle, $locale, $messageId);
+
+        if ($messageInstance) {
+
+            $message = new MessageTranslation();
+            $message->setLocale($locale);
+            $message->setMessage($messageInstance->getSourceString());
+            $message->setTranslation($messageInstance->getLocaleString());
+
+            $messageResponse->setSuccess(true);
+            $messageResponse->setMessageTranslation($message);
+
+        }
+        else {
+
+            $messageResponse->setSuccess(false);
+        }
         $jsonContent = $serializer->serialize($messageResponse, 'json');
-        //sleep(3);
         $response = new Response();
         $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
@@ -183,11 +183,18 @@ displaymsg: "resource not found error"
 
     public function processTranslateAction(Request $request)
     {
-        var_dump($request->get('locale'));
-        var_dump($request->get('bundle'));
+       // var_dump($request->get('locale'));
+       // var_dump($request->get('bundle'));
+        //var_dump($request->get('message'));
+        //var_dump($request->get('translation'));
+
+        $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
+
+        $success = $localeMessages->updateMessage($request->get('bundle'), $request->get('locale'), $request->get('message'), $request->get('translation'));
+
         $response = new JsonResponse();
         $response->setData(array(
-            'success' => true,
+            'success' => $success,
         ));
 
         return $response;

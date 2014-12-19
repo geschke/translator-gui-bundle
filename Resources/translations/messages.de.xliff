@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-11-24T12:59:33Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-12-19T01:19:32Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -19,29 +19,29 @@
       </trans-unit>
       <trans-unit id="77dfd2135f4db726c47299bb55be26f7f4525a46" resname="Cancel">
         <source>Cancel</source>
-        <target state="new">Cancel</target>
+        <target>Abbrechen</target>
         <jms:reference-file line="77">views/Bundles/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="94d0c90db55128b9fffb7beee8d09b83668d9b08" resname="Choose language">
         <source>Choose language</source>
-        <target state="new">Choose language</target>
+        <target>Sprache wählen</target>
         <jms:reference-file line="86">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
         <jms:reference-file line="76">TranslatorGUIBundle/Controller/LanguageController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="a31e01ace18d982bbd65ec87d52fc3f8b5270367" resname="Create new language file">
         <source>Create new language file</source>
-        <target state="new">Create new language file</target>
+        <target>Create new language file</target>
         <jms:reference-file line="92">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
         <jms:reference-file line="82">TranslatorGUIBundle/Controller/LanguageController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
-        <target state="new">Löschen</target>
+        <target>Löschen</target>
         <jms:reference-file line="45">views/Bundles/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b9ea4b3f01ac764edaec436479e4ef578ca45644" resname="Delete file">
         <source>Delete file</source>
-        <target state="new">Delete file</target>
+        <target>Delete file</target>
         <jms:reference-file line="78">views/Bundles/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0a9beeb747a4447c8dfa50eb59483dca38698872" resname="Delete language file">
@@ -61,7 +61,7 @@
       </trans-unit>
       <trans-unit id="84661f6a90ccb97749b380322a6551ada1ae874f" resname="Rescan">
         <source>Rescan</source>
-        <target state="new">Rescan</target>
+        <target>Rescan</target>
         <jms:reference-file line="42">views/Bundles/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0fc5a8dcf4dee8cf89d04c1c46494baa1d0f073c" resname="Rescan successfully finished!">
