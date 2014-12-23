@@ -192,11 +192,35 @@ displaymsg: "resource not found error"
 
         $success = $localeMessages->updateMessage($request->get('bundle'), $request->get('locale'), $request->get('message'), $request->get('translation'));
 
-        $response = new JsonResponse();
-        $response->setData(array(
-            'success' => $success,
-        ));
+        $success = false;
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
 
+        $serializer = new Serializer($normalizers, $encoders);
+
+
+        $messageResponse = new MessageTranslationResponse();
+        $messageResponse->setLocale($request->get('locale'));
+        $messageResponse->setBundle($request->get('bundle'));
+        if ($success) {
+            // or get translation from file?
+            $message = new MessageTranslation();
+            $message->setLocale($request->get('locale'));
+            $message->setMessage($request->get('message'));
+            $message->setTranslation($request->get('translation'));
+
+            $messageResponse->setSuccess(true);
+            $messageResponse->setMessageTranslation($message);
+
+        }
+        else {
+            $messageResponse->setSuccess(false);
+        }
+
+        $jsonContent = $serializer->serialize($messageResponse, 'json');
+        $response = new Response();
+        $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
 
     }

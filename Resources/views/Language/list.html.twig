@@ -16,26 +16,38 @@
     <table class="table table-striped ">
         <thead>
         <tr>
-            <th>Key</th>
-            <th>Translation</th>
-               <th>Aktion</th>
+            <th colspan="3">
+                <div class="row">
+                    <div class="col-md-5">Key</div>
+                    <div class="col-md-5">Translation</div>
+                    <div class="col-md-2">Aktion</div>
+                </div>
+                </th>
         </tr>
         </thead>
         <tbody>
 
         {% for key, message in messages %}
 
+
             <tr class="message-item" data-identifier="{{ key|sha1 }}" data-id="{{ message.getId }}">
-                <td id="message_{{ key|sha1 }}">{{ message.getSourceString }}</td>
-                <td id="translation_{{ key|sha1 }}">{{ message.getLocaleString }}</td>
-                <td>
+<td colspan="3">
+
+               <div class="row">
+
+                <div class="col-md-5" id="message_{{ key|sha1 }}">{{ message.getSourceString }}
+                </div>
+                   <div class="col-md-5" id="translation_{{ key|sha1 }}">{{ message.getLocaleString }}
+                       </div>
+                   <div class="col-md-2">
                     <button data-locale="{{ locale }}" type="button" class="btn-action-edit btn btn-default btn-xs">
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {% trans %}Edit{% endtrans %}
                     </button>
-
-
-        </td>
+                       </div>
+            </div>
+                </td>
         </tr>
+
     {% endfor %}
         </tbody>
     </table>
@@ -69,7 +81,7 @@
     <script type="text/javascript">
         var bundle = "{{ bundle }}" || undefined; // maybe later: encapsulate in object or something...
         var locale = "{{ locale }}" || undefined;
-
+        var messageHandler = new Array();
         //console.log(bundle);
         //console.log(locale);
 
@@ -117,6 +129,7 @@
                 //        bar = modal.find('.progress-bar');
                 var messageId = $(this).parents('.message-item').attr('data-id');
                 var identifier = $(this).parents('.message-item').attr('data-identifier');
+
                 console.log(messageId);
                 locale = $(this).attr('data-locale');
                 var url =  adminUrl  + 'language-translate/';
@@ -168,13 +181,14 @@
                 var messageId = $('#form_message').val();
                 var identifier = $('#modal-edit-body').attr('data-identifier');
 
+
                 var data = {
                     bundle: bundle,
                     locale:  $('#form_locale').val(),
                     message: messageId,
                     translation:  $('#form_translation').val()
                 };
-                console.log(data);
+               // console.log(data);
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -189,10 +203,30 @@
                                 modal.modal('hide');
                             }, 1500);
                             */
-                            console.log($('tr[data-identifier="' + identifier + '"]'));
-                            console.log(msg);
+                          //  console.log($('tr[data-identifier="' + identifier + '"]'));
+                          //  console.log(msg);
                             if (msg.success == true) {
+                                var message = msg.messageTranslation;
+                                $('#translation_' + identifier).html(message.translation);
+                            }
+                            else {
+                                $('#message_' + identifier).before('<div id="box-alert_' + identifier + '" class="col-md-12">' +
+                                '<div id="alert_' + identifier + '" class="alert alert-danger alert-dismissible fade in">' +
+                                '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>' +
+                                '<strong>Error!</strong> An error occurred by saving translation message.</div></div>');
+                            setTimeout(function() {
+                                    $('#alert_' + identifier).alert('close');
+                                    console.log("timeout, so delete the stuff...");
+                                }, 2500);
 
+                                console.log(messageHandler[identifier]);
+                               // if (messageHandler[identifier] == undefined) {
+                                    console.log("define handler...");
+                                    messageHandler[identifier] = $('#alert_' + identifier).on('closed.bs.alert', function () {
+                                       console.log("remove the stuff");
+                                        $('#box-alert_' + identifier).remove();
+                                    });
+                                //}
                             }
                             /*$('.rescan-ready').show();
                              $('.rescan-loading').hide();
