@@ -192,7 +192,7 @@ displaymsg: "resource not found error"
 
         $success = $localeMessages->updateMessage($request->get('bundle'), $request->get('locale'), $request->get('message'), $request->get('translation'));
 
-        $success = false;
+
         $encoders = array(new JsonEncoder());
         $normalizers = array(new GetSetMethodNormalizer());
 
