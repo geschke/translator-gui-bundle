@@ -11,6 +11,15 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Util;
 class LocaleFiles
 {
 
+    private $kernel;
+
+    //  private $translator;
+
+    public function __construct($kernel)
+    {
+        $this->kernel = $kernel;
+//        $this->translator = $translator;
+    }
 
     public function getLanguages($path)
     {

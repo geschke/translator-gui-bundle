@@ -37,7 +37,8 @@ class DefaultController extends Controller
 
         $kernel = $this->container->get('kernel');
 
-        $localeFiles = new LocaleFiles();
+
+        $localeFiles = new LocaleFiles($kernel);
 
         foreach ($bundles as $bundle => $bundleFullName) {
             $path = $kernel->locateResource('@' . $bundle);

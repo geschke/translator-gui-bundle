@@ -5,10 +5,18 @@
 parameters:
     geschke_bundle_admin_translatorguibundle.locale_messages.class: Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleMessages
 
+    geschke_bundle_admin_translatorguibundle.locale_files.class: Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles
+
+
 services:
     geschke_bundle_admin_translatorguibundle.locale_messages:
         class:   "%geschke_bundle_admin_translatorguibundle.locale_messages.class%"
         arguments: [@kernel]
+
+    geschke_bundle_admin_translatorguibundle.locale_files:
+        class:   "%geschke_bundle_admin_translatorguibundle.locale_files.class%"
+        arguments: [@kernel]
+
 
     geschke_bundle_admin_translatorguibundle.twig.extension:
         class: Geschke\Bundle\Admin\TranslatorGUIBundle\Extension\TwigExtension
