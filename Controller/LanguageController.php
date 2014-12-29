@@ -121,48 +121,11 @@ $refDomains = $reflect->getProperty('domains');
 
         var_dump($bundle);
         var_dump($locale);
-        $builder = new ConfigBuilder();
-        $this->updateWithInput($bundle, $builder);
 
+        $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+        $localeFiles->rescanMessageFile($bundle, $locale);
 
-
-//        foreach ($locales as $locale) {
-        $config = $builder->setLocale($locale)->getConfig();
-
-        echo sprintf('Keep old translations: <info>%s</info>', $config->isKeepOldMessages() ? 'Yes' : 'No');
-        echo sprintf('Output-Path: <info>%s</info>', $config->getTranslationsDir());
-        echo sprintf('Directories: <info>%s</info>', implode(', ', $config->getScanDirs()));
-        echo  sprintf('Excluded Directories: <info>%s</info>', $config->getExcludedDirs() ? implode(', ', $config->getExcludedDirs()) : '# none #');
-        echo sprintf('Excluded Names: <info>%s</info>', $config->getExcludedNames() ? implode(', ', $config->getExcludedNames()) : '# none #');
-        echo  sprintf('Output-Format: <info>%s</info>', $config->getOutputFormat() ? $config->getOutputFormat() : '# whatever is present, if nothing then ' . $config->getDefaultOutputFormat() . ' #');
-        echo  sprintf('Custom Extractors: <info>%s</info>', $config->getEnabledExtractors() ? implode(', ', array_keys($config->getEnabledExtractors())) : '# none #');
-
-        $updater = $this->container->get('jms_translation.updater');
-
-
-//        if ($input->getOption('dry-run')) {
-            $changeSet = $updater->getChangeSet($config);
-
-            echo 'Added Messages: ' . count($changeSet->getAddedMessages());
-                foreach ($changeSet->getAddedMessages() as $message) {
-                    echo $message->getId() . '-> ' . $message->getDesc();
-                }
-
-            if ($config->isKeepOldMessages()) {
-                echo  'Deleted Messages: # none as "Keep Old Translations" is true #';
-            } else {
-                echo  'Deleted Messages: ' . count($changeSet->getDeletedMessages());
-                    foreach ($changeSet->getDeletedMessages() as $message) {
-                        echo $message->getId() . '-> ' . $message->getDesc();
-                    }
-
-            }
-
-
-
-        $updater->process($config);
-
-die;
+        die;
 
        // sleep(3);
         $response = new JsonResponse();
@@ -185,63 +148,6 @@ displaymsg: "resource not found error"
         return $response;
     }
 
-        private function updateWithInput($bundleName, ConfigBuilder $builder)
-    {
-        $kernel = $this->container->get('kernel');
-
-            $bundle = $kernel->getBundle($bundleName);
-            $builder->setTranslationsDir($bundle->getPath().'/Resources/translations');
-            $builder->setScanDirs(array($bundle->getPath()));
-
-        $outputFormat = 'xliff';
-            $builder->setOutputFormat($outputFormat);
-
-        /*if ($input->getOption('ignore-domain')) {
-            foreach ($input->getOption('ignore-domain') as $domain) {
-                $builder->addIgnoredDomain($domain);
-            }
-        }*/
-
-/*        if ($input->getOption('domain')) {
-            foreach ($input->getOption('domain') as $domain) {
-                $builder->addDomain($domain);
-            }
-        }
-*/
-  /*      if ($excludeDirs = $input->getOption('exclude-dir')) {
-            $builder->setExcludedDirs($excludeDirs);
-        }
-
-        if ($excludeNames = $input->getOption('exclude-name')) {
-            $builder->setExcludedNames($excludeNames);
-        }
-
-        if ($format = $input->getOption('default-output-format')) {
-            $builder->setDefaultOutputFormat($format);
-        }
-*/
- /*       if ($enabledExtractors = $input->getOption('enable-extractor')) {
-            foreach ($enabledExtractors as $alias) {
-                $builder->enableExtractor($alias);
-            }
-        }
-
-        if ($disabledExtractors = $input->getOption('disable-extractor')) {
-            foreach ($disabledExtractors as $alias) {
-                $builder->disableExtractor($alias);
-            }
-        }
-
-        if ($input->hasParameterOption('--keep') || $input->hasParameterOption('--keep=true')) {
-            $builder->setKeepOldTranslations(true);
-        } else if ($input->hasParameterOption('--keep=false')) {
-            $builder->setKeepOldTranslations(false);
-        }
-*/
-/*        if ($loadResource = $input->getOption('external-translations-dir')) {
-            $builder->setLoadResources($loadResource);
-        }*/
-    }
 
 
     public function translateAction(Request $request)
