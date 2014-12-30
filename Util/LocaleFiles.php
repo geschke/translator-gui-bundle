@@ -9,6 +9,7 @@
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Util;
 
 use JMS\TranslationBundle\Translation\ConfigBuilder;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 
 class LocaleFiles
 {
@@ -57,50 +58,51 @@ class LocaleFiles
 
     public function rescanMessageFile($bundleName, $locale)
     {
+        try {
+            $builder = new ConfigBuilder();
+            $this->updateWithInput($bundleName, $builder);
 
-        $builder = new ConfigBuilder();
-        $this->updateWithInput($bundleName, $builder);
+            $config = $builder->setLocale($locale)->getConfig();
 
-
-
-//        foreach ($locales as $locale) {
-        $config = $builder->setLocale($locale)->getConfig();
-
-        echo sprintf('Keep old translations: <info>%s</info>', $config->isKeepOldMessages() ? 'Yes' : 'No');
-        echo sprintf('Output-Path: <info>%s</info>', $config->getTranslationsDir());
-        echo sprintf('Directories: <info>%s</info>', implode(', ', $config->getScanDirs()));
-        echo  sprintf('Excluded Directories: <info>%s</info>', $config->getExcludedDirs() ? implode(', ', $config->getExcludedDirs()) : '# none #');
-        echo sprintf('Excluded Names: <info>%s</info>', $config->getExcludedNames() ? implode(', ', $config->getExcludedNames()) : '# none #');
-        echo  sprintf('Output-Format: <info>%s</info>', $config->getOutputFormat() ? $config->getOutputFormat() : '# whatever is present, if nothing then ' . $config->getDefaultOutputFormat() . ' #');
-        echo  sprintf('Custom Extractors: <info>%s</info>', $config->getEnabledExtractors() ? implode(', ', array_keys($config->getEnabledExtractors())) : '# none #');
-
-       $container = $this->kernel->getContainer();
+            /* echo sprintf('Keep old translations: <info>%s</info>', $config->isKeepOldMessages() ? 'Yes' : 'No');
+             echo sprintf('Output-Path: <info>%s</info>', $config->getTranslationsDir());
+             echo sprintf('Directories: <info>%s</info>', implode(', ', $config->getScanDirs()));
+             echo  sprintf('Excluded Directories: <info>%s</info>', $config->getExcludedDirs() ? implode(', ', $config->getExcludedDirs()) : '# none #');
+             echo sprintf('Excluded Names: <info>%s</info>', $config->getExcludedNames() ? implode(', ', $config->getExcludedNames()) : '# none #');
+             echo  sprintf('Output-Format: <info>%s</info>', $config->getOutputFormat() ? $config->getOutputFormat() : '# whatever is present, if nothing then ' . $config->getDefaultOutputFormat() . ' #');
+             echo  sprintf('Custom Extractors: <info>%s</info>', $config->getEnabledExtractors() ? implode(', ', array_keys($config->getEnabledExtractors())) : '# none #');
+     */
+            $container = $this->kernel->getContainer();
 
 
-        $updater = $container->get('jms_translation.updater');
+            $updater = $container->get('jms_translation.updater');
 
 
 //        if ($input->getOption('dry-run')) {
-        $changeSet = $updater->getChangeSet($config);
+            $changeSet = $updater->getChangeSet($config);
 
-        echo 'Added Messages: ' . count($changeSet->getAddedMessages());
-        foreach ($changeSet->getAddedMessages() as $message) {
-            echo $message->getId() . '-> ' . $message->getDesc();
-        }
+            //echo 'Added Messages: ' . count($changeSet->getAddedMessages());
+            //foreach ($changeSet->getAddedMessages() as $message) {
+            //    echo $message->getId() . '-> ' . $message->getDesc();
+            //}
 
-        if ($config->isKeepOldMessages()) {
-            echo  'Deleted Messages: # none as "Keep Old Translations" is true #';
-        } else {
-            echo  'Deleted Messages: ' . count($changeSet->getDeletedMessages());
-            foreach ($changeSet->getDeletedMessages() as $message) {
-                echo $message->getId() . '-> ' . $message->getDesc();
+            if (!$config->isKeepOldMessages()) {
+                //echo 'Deleted Messages: ' . count($changeSet->getDeletedMessages());
+                foreach ($changeSet->getDeletedMessages() as $message) {
+                    echo $message->getId() . '-> ' . $message->getDesc();
+                }
+
             }
 
+
+            $updater->process($config);
         }
-
-
-
-        $updater->process($config);
+        catch (ContextErrorException $e) {
+            return false;
+        }
+        catch (\Exception $e) {
+            return false;
+        }
         return true;
 
     }

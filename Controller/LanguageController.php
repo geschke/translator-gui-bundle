@@ -119,13 +119,11 @@ $refDomains = $reflect->getProperty('domains');
         $bundle = $request->get('bundle');
         $locale = $request->get('locale');
 
-        var_dump($bundle);
-        var_dump($locale);
+       // var_dump($bundle);
+        //var_dump($locale);
 
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
-        $localeFiles->rescanMessageFile($bundle, $locale);
-
-        die;
+        $result = $localeFiles->rescanMessageFile($bundle, $locale);
 
        // sleep(3);
         $response = new JsonResponse();
@@ -139,10 +137,9 @@ displaymsg: "resource not found error"
 }
          */
         $response->setData(array(
-            'success' => true,
+            'success' => $result,
             'bundle' => $bundle,
             'locale' => $locale,
-            'data' => 123
         ));
 
         return $response;
