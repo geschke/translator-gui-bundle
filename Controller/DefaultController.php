@@ -77,8 +77,8 @@ class DefaultController extends Controller
         $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
 
 
-        foreach ($locales as $locale => $localeData ) {
-            $choices[$locale] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $locale . '" /> ' . $locale . ' ' . $localeData['lang-native'] ;
+        foreach ($locales as $localeChoice => $localeData ) {
+            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'] ;
         }
 
         $form = $this->createFormBuilder($languageFile)
@@ -96,9 +96,26 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            echo "form submitted";
-            die;
-            return $this->redirect($this->generateUrl('task_success'));
+
+            $locale = $form->get('locale')->getData();
+
+            $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+            $result = $localeFiles->rescanMessageFile($bundle, $locale);
+
+            if ($result) {
+                $this->get('session')->getFlashBag()->add(
+                    'message_success',
+                    'The language file was created successfully.'
+                );
+
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'message_error',
+                    'Error by creating language file.'
+                );
+            }
+
+            return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
         }
 
         return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig',
@@ -108,8 +125,6 @@ class DefaultController extends Controller
                 'bundle' => $bundle,
                 'languages' => $locales
             ));
-
-
     }
 
 }

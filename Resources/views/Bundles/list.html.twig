@@ -4,9 +4,15 @@
     {% trans %}Bundles list{% endtrans %}
 
 
-    {% for flashMessage in app.session.flashbag.get('message') %}
+    {% for flashMessage in app.session.flashbag.get('message_success') %}
 
-            <div class="alert alert-info">
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('message_error') %}
+
+        <div class="alert alert-danger">
             {{ flashMessage }}
         </div>
     {% endfor %}
