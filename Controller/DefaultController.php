@@ -13,18 +13,14 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-        $locale = $request->getLocale();
 
-        $request->setLocale('de');
 
         $translator = $this->get('translator');
         $welcome = $translator->trans("Welcome to Translator GUI Bundle!");
 
-        $name = 'foo';
-        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:index.html.twig',
+       return $this->render('GeschkeAdminTranslatorGUIBundle:Default:index.html.twig',
             array(
                 'mainnav' => 'index',
-                'name' => $name,
                 'welcome' => $welcome
             ));
     }
@@ -38,27 +34,39 @@ class DefaultController extends Controller
         $kernel = $this->container->get('kernel');
 
 
+        $csp_l10n_sys_locales = LocaleDefinitions::$csp_l10n_sys_locales;
+
         $localeFiles = new LocaleFiles($kernel);
 
         foreach ($bundles as $bundle => $bundleFullName) {
             $path = $kernel->locateResource('@' . $bundle);
             $messageFiles = $localeFiles->getLanguages($path);
+            for ($i = 0; $i < count($messageFiles); $i++) {
+                //$messageFiles[$i]['additional'] = array();
+
+                if (strlen($messageFiles[$i]['locale']) > 2) {
+                    if (isset($csp_l10n_sys_locales[$messageFiles[$i]['locale']])) {
+                        $messageFiles[$i]['additional'] = $csp_l10n_sys_locales[$messageFiles[$i]['locale']];
+                    }
+                }
+            }
             $bundleList[] = array(
                 'name' => $bundle,
                 'fullName' => $bundleFullName,
                 'path' => $path,
                 'messageFiles' => $messageFiles
             );
-
-
         }
+
+//var_dump($bundleList);
+  //      die;
         asort($bundleList);
-        $name = 'foo';
+
         return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
             array(
                 'mainnav' => 'bundles',
-                'bundles' => $bundleList,
-                'name' => $name
+                'bundles' => $bundleList
+
             ));
     }
 
@@ -127,4 +135,30 @@ class DefaultController extends Controller
             ));
     }
 
-}
+    public function deleteLanguageAction(Request $request)
+    {
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
+
+        $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+        $result = $localeFiles->deleteMessageFile($bundle, $locale);
+
+
+        if ($result) {
+            $this->get('session')->getFlashBag()->add(
+                'message_success',
+                'The language file was deleted successfully.'
+            );
+
+        } else {
+            $this->get('session')->getFlashBag()->add(
+                'message_error',
+                'Error by deleting language file.'
+            );
+        }
+
+        return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
+
+    }
+
+    }

@@ -10,6 +10,9 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Util;
 
 use JMS\TranslationBundle\Translation\ConfigBuilder;
 use Symfony\Component\Debug\Exception\ContextErrorException;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class LocaleFiles
 {
@@ -39,7 +42,7 @@ class LocaleFiles
         }
         if ($number = count($translationFiles)) {
             for ($i = 0; $i < $number; $i++) {
-                $matched = preg_match('/^(.*)\.(.*)\.(.*)$/', strtolower($translationFiles[$i]['file']), $ma);
+                $matched = preg_match('/^(.*)\.(.*)\.(.*)$/', $translationFiles[$i]['file'], $ma);
                 if ($matched) {
                     if (isset($ma[3])) {
                         $format = $ma[3];
@@ -117,6 +120,45 @@ class LocaleFiles
         $outputFormat = 'xliff';
         $builder->setOutputFormat($outputFormat);
         return true;
+    }
+
+    public function deleteMessageFile($bundleName, $locale)
+    {
+        $filesError = $filesDeleted = array();
+
+
+        $path = $this->kernel->locateResource('@' . $bundleName);
+
+        $fs = new Filesystem();
+
+        $files = $this->getLanguages($path);
+
+        $localeFile = null;
+        foreach ($files as $localeData) {
+            if ($localeData['locale'] == $locale) {
+                //echo "locale file found! with $locale<br>";
+                $localeFile = $localeData['file'];
+                try {
+                    $completeFile = $path . 'Resources/translations/' . $localeFile;
+                   // echo $completeFile;
+                    $fs->remove($completeFile);
+                   // echo "should be deleted!";
+                    $filesDeleted[] = $localeFile;
+                } catch (IOExceptionInterface $e) {
+                    $filesError[] = $localeFile;
+                 // echo "An error occurred while creating your directory at ".$e->getPath();
+                }
+           }
+        }
+        if ($localeFile === null) {
+            return false;
+        }
+        // todo maybe in future: get more information about failed deletion
+        if (count($filesError)) {
+            return false;
+        }
+      return true;
+
     }
 
 }

@@ -11,6 +11,12 @@ geschke_admin_translator_gui_language_add:
     path:     /language-add/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:addLanguage }
 
+
+geschke_admin_translator_gui_language_delete:
+    path:     /language-delete/
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:deleteLanguage }
+
+
 geschke_admin_translator_gui_language_edit:
     path:     /language-edit/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:listTranslations }

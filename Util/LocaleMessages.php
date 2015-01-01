@@ -28,7 +28,7 @@ class LocaleMessages extends ContainerAware
     {
         $path = $this->kernel->locateResource('@' . $bundle);
 
-        $localeFiles = new LocaleFiles();
+        $localeFiles = new LocaleFiles($this->kernel);
 
         $files = $localeFiles->getLanguages($path);
         $localeFile = null;
@@ -53,7 +53,7 @@ class LocaleMessages extends ContainerAware
 
         $path = $this->kernel->locateResource('@' . $bundle);
 
-        $localeFiles = new LocaleFiles();
+        $localeFiles = new LocaleFiles($this->kernel);
 
         $files = $localeFiles->getLanguages($path);
         $localeFile = null;
