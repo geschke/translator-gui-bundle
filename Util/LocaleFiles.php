@@ -84,21 +84,22 @@ class LocaleFiles
 //        if ($input->getOption('dry-run')) {
             $changeSet = $updater->getChangeSet($config);
 
-            //echo 'Added Messages: ' . count($changeSet->getAddedMessages());
+            $addedMessages = count($changeSet->getAddedMessages());
             //foreach ($changeSet->getAddedMessages() as $message) {
             //    echo $message->getId() . '-> ' . $message->getDesc();
             //}
 
-            if (!$config->isKeepOldMessages()) {
+            //if (!$config->isKeepOldMessages()) {
                 //echo 'Deleted Messages: ' . count($changeSet->getDeletedMessages());
-                foreach ($changeSet->getDeletedMessages() as $message) {
-                    echo $message->getId() . '-> ' . $message->getDesc();
-                }
+            //    foreach ($changeSet->getDeletedMessages() as $message) {
+                    //echo $message->getId() . '-> ' . $message->getDesc();
+            //    }
 
-            }
+            //}
 
 
             $updater->process($config);
+            return $addedMessages;
         }
         catch (ContextErrorException $e) {
             return false;
@@ -106,7 +107,6 @@ class LocaleFiles
         catch (\Exception $e) {
             return false;
         }
-        return true;
 
     }
 

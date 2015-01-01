@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-12-31T23:25:57Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2015-01-01T02:29:46Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
-      <trans-unit id="d638a73d08654907e48daafcea97a055a4e1832b" resname="                                Edit">
-        <source>                                Edit</source>
-        <target state="new">                                Edit</target>
-        <jms:reference-file line="51">views/Language/list.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="aae6729d55bf60b32d4193228f8b057a95d6452f" resname="Add new language">
         <source>Add new language</source>
         <target state="new">Add new language</target>
@@ -26,17 +21,17 @@
         <source>Cancel</source>
         <target state="new">Cancel</target>
         <jms:reference-file line="115">views/Bundles/list.html.twig</jms:reference-file>
-        <jms:reference-file line="80">views/Language/list.html.twig</jms:reference-file>
+        <jms:reference-file line="79">views/Language/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="94d0c90db55128b9fffb7beee8d09b83668d9b08" resname="Choose language">
         <source>Choose language</source>
         <target state="new">Choose language</target>
-        <jms:reference-file line="99">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
+        <jms:reference-file line="95">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="a31e01ace18d982bbd65ec87d52fc3f8b5270367" resname="Create new language file">
         <source>Create new language file</source>
         <target state="new">Create new language file</target>
-        <jms:reference-file line="105">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
+        <jms:reference-file line="101">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
@@ -57,6 +52,7 @@
         <source>Edit</source>
         <target state="new">Edit</target>
         <jms:reference-file line="64">views/Bundles/list.html.twig</jms:reference-file>
+        <jms:reference-file line="51">views/Language/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1702b4686278becffc88baabe6f4b7a8355532c" resname="Messages">
         <source>Messages</source>
@@ -81,7 +77,7 @@
       <trans-unit id="479aba98d504e20d2a5e51648c36a3983ed96423" resname="Save Message">
         <source>Save Message</source>
         <target state="new">Save Message</target>
-        <jms:reference-file line="81">views/Language/list.html.twig</jms:reference-file>
+        <jms:reference-file line="80">views/Language/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f5b05fddf118b25d155ec833df3281d53263b574" resname="Scanning progress...">
         <source>Scanning progress...</source>
@@ -91,12 +87,12 @@
       <trans-unit id="ec7e232c17ba97553e55d82f38f0303279aad677" resname="Translate message">
         <source>Translate message</source>
         <target state="new">Translate message</target>
-        <jms:reference-file line="73">views/Language/list.html.twig</jms:reference-file>
+        <jms:reference-file line="72">views/Language/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="81e2378727c0fcd29a6c3c4f83d3e84bf4769165" resname="Welcome to Translator GUI Bundle!">
         <source>Welcome to Translator GUI Bundle!</source>
         <target state="new">Welcome to Translator GUI Bundle!</target>
-        <jms:reference-file line="21">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
+        <jms:reference-file line="19">TranslatorGUIBundle/Controller/DefaultController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="96f74c86e631e10d95299b6b2ff1323ef03a22ba" resname="You are about to delete &lt;strong&gt;&lt;/strong&gt; from &quot;&lt;strong&gt;&lt;/strong&gt;&quot; permanently.&lt;br/&gt;Are&#10;                        you sure you wish to delete these files?">
         <source><![CDATA[You are about to delete <strong></strong> from "<strong></strong>" permanently.<br/>Are

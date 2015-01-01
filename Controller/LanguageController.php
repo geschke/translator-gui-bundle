@@ -125,6 +125,9 @@ $refDomains = $reflect->getProperty('domains');
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
         $result = $localeFiles->rescanMessageFile($bundle, $locale);
 
+        if ($result !== false) { // result returns number of found new messages or false, if failed
+            $result = true;
+        }
        // sleep(3);
         $response = new JsonResponse();
         /*

@@ -16,6 +16,13 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('message_warning') %}
+
+        <div class="alert alert-warning">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
 
     <table class="table table-striped ">
         <thead>

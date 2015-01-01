@@ -110,18 +110,26 @@ class DefaultController extends Controller
             $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
             $result = $localeFiles->rescanMessageFile($bundle, $locale);
 
-            if ($result) {
-                $this->get('session')->getFlashBag()->add(
-                    'message_success',
-                    'The language file was created successfully.'
-                );
 
-            } else {
+            if ($result === false) {
                 $this->get('session')->getFlashBag()->add(
                     'message_error',
                     'Error by creating language file.'
                 );
             }
+            elseif ($result === 0) {
+                $this->get('session')->getFlashBag()->add(
+                    'message_warning',
+                    'No messages found. The language file was not created.'
+                );
+            } else {
+                // result > 0
+                $this->get('session')->getFlashBag()->add(
+                    'message_success',
+                    'The language file was created successfully.'
+                );
+            }
+
 
             return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
         }
