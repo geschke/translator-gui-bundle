@@ -2,12 +2,9 @@
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
-use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\MessageTranslation;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\MessageTranslationResponse;
-use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
-use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
-use JMS\TranslationBundle\Translation\ConfigBuilder;
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Pagination\Paginator;
 use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -76,15 +73,21 @@ $refDomains = $reflect->getProperty('domains');
         $messageCollection = $r['messages'];
         $messageArray = $messageCollection->all();
 
-        //var_dump($messageArray);
-        foreach ($messageArray as $key => $message) {
-            $messageKeys[] = $key;
-        }
-//var_dump($messageArray);
-//        var_dump($messageKeys);
-//die;
-//        $translator->addLoader('xliff', new XliffFileLoader());
-//        $translator->addResource('xliff', $filename, $locale);
+        $cnt = count($messageArray);
+
+        $page = $request->get('page') ? $request->get('page') : 1;
+        $itemsPerPage = 3;
+
+        $paginator = new Paginator($page, $cnt, $itemsPerPage);
+
+        $offset = $paginator->getOffset();
+
+        $messages = array_slice($messageArray, $offset, $itemsPerPage);
+
+
+        $uri = $this->get('router')->generate('geschke_admin_translator_gui_language_edit',
+            array('bundle' => $bundle, 'locale' => $locale));
+        $paginator->setBaseUrl($uri);
 
         $messageTranslation = new MessageTranslation();
 
@@ -98,15 +101,14 @@ $refDomains = $reflect->getProperty('domains');
             ->getForm();
 
 
-
-
         return $this->render('GeschkeAdminTranslatorGUIBundle:Language:list.html.twig',
             array(
                 'mainnav' => '',
                 'bundle' => $bundle,
                 'locale' => $locale,
-                'messages' => $messageArray,
+                'messages' => $messages,
                 'form' => $form->createView(),
+                'paginator' => $paginator
 
             ));
 
