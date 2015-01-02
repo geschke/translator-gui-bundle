@@ -106,50 +106,14 @@
 
         var adminUrl = '{{ path('geschke_admin_translator_gui_homepage') }}';
         $(function () {
-            /*            $('.btn-action-language-add').click(function () {
-             var options = {};
-             bundle = $(this).parents('.bundle-item').attr('data-name');
-             //console.log(bundle);
-             window.location = adminUrl  + 'language-add/?bundle=' + bundle;
-             //                $('#modalDelete').modal(options);
 
-             });
-
-             $('.btn-action-delete').click(function () {
-             var options = {};
-             bundle = $(this).parents('.bundle-item').attr('data-name');
-             locale = $(this).attr('data-locale');
-             console.log(bundle);
-             console.log(locale);
-             $('#modalDelete').modal(options);
-
-             });
-
-             $('.do-delete-action').click(function () {
-             $('#modalDelete').modal('hide');
-             var deleteBundle = bundle;
-             var deleteLocale = locale;
-             bundle = undefined;
-             locale = undefined;
-             window.location = adminUrl  + 'language-delete/?bundle=' + deleteBundle + '&locale=' + deleteLocale;
-             });
-
-             $('.btn-action-rescan2').click(function () {
-             var options = {};
-             bundle = $(this).parents('.bundle-item').attr('data-name');
-             locale = $(this).attr('data-locale');
-             window.location = adminUrl  + 'language-rescan/?bundle=' + bundle + '&locale=' + locale;
-
-             });
-             */
             $('.btn-action-edit').click(function () {
                 var modal = $('#modalTranslate');
                 //        bar = modal.find('.progress-bar');
                 var messageId = $(this).parents('.message-item').attr('data-id');
                 var identifier = $(this).parents('.message-item').attr('data-identifier');
 
-                console.log(messageId);
-                locale = $(this).attr('data-locale');
+                var locale = $(this).attr('data-locale');
                 var url = adminUrl + 'language-translate/';
                 $('#form_locale').val(locale);
                 $('#form_message').val('');
@@ -164,32 +128,12 @@
                 })
                         .done(function (msg) {
 
-
-                            /*$('.rescan-ready').show();
-                             $('.rescan-loading').hide();
-                             if (msg.success ==  true) {
-                             $('.rescan-success').show();
-                             $('.rescan-error').hide();
-                             console.log("ok");
-                             } else {
-                             $('.rescan-success').hide();
-                             $('.rescan-error').show();
-
-                             console.log("false");
-                             }
-                             */
                             $('#form_message').val(msg.messageTranslation.message);
 
                             $('#form_translation').val(msg.messageTranslation.translation);
                         });
 
-                /*
-                 bar.addClass('animate');
 
-                 setTimeout(function() {
-                 bar.removeClass('animate');
-                 modal.modal('hide');
-                 }, 1500);*/
             });
 
             $('.do-edit-action').click(function () {
@@ -206,7 +150,7 @@
                     message: messageId,
                     translation: $('#form_translation').val()
                 };
-                // console.log(data);
+
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -214,15 +158,6 @@
                 })
                         .done(function (msg) {
 
-                            /*  bar.addClass('animate');
-
-                             setTimeout(function() {
-                             bar.removeClass('animate');
-                             modal.modal('hide');
-                             }, 1500);
-                             */
-                            //  console.log($('tr[data-identifier="' + identifier + '"]'));
-                            //  console.log(msg);
                             if (msg.success == true) {
                                 var message = msg.messageTranslation;
                                 $('#translation_' + identifier).html(message.translation);
@@ -234,22 +169,14 @@
                                 '<strong>Error!</strong> An error occurred by saving translation message.</div></div>');
                                 setTimeout(function () {
                                     $('#alert_' + identifier).alert('close');
-                                    console.log("timeout, so delete the stuff...");
                                 }, 2500);
 
-
-
-                                console.log("define handler...");
                                 $('#alert_' + identifier).on('closed.bs.alert', function () {
-                                    console.log("remove the stuff");
                                     $('#box-alert_' + identifier).remove();
                                 });
-
                             }
-
                         });
 
-                console.log("do-edit-action");
                 modal.modal('hide');
             });
 

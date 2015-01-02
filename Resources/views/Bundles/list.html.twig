@@ -172,8 +172,6 @@
                 var options = {};
                 bundle = $(this).parents('.bundle-item').attr('data-name');
                 locale = $(this).attr('data-locale');
-                console.log(bundle);
-                console.log(locale);
                 $('#modalDelete').modal(options);
 
             });
@@ -219,25 +217,13 @@
                             if (msg.success == true) {
                                 $('.rescan-success').show();
                                 $('.rescan-error').hide();
-                                console.log("ok");
+
                             } else {
                                 $('.rescan-success').hide();
                                 $('.rescan-error').show();
-
-                                console.log("false");
                             }
-
-                            console.log(msg);
-
                         });
 
-                /*
-                 bar.addClass('animate');
-
-                 setTimeout(function() {
-                 bar.removeClass('animate');
-                 modal.modal('hide');
-                 }, 1500);*/
             });
 
         });
