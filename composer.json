@@ -1,0 +1,24 @@
+{
+    "name":         "geschke/translator-gui-bundle",
+    "description":  "A simple GUI for translating Symfony2 bundles.",
+    "keywords":     ["translation", "multilanguage", "extract", "webinterface", "ui", "i18n", "extraction", "interface"],
+    "homepage":     "https://www.kuerbis.org/bundles/TranslatorGUIBundle",
+    "type":         "symfony-bundle",
+    "license":      "Apache2",
+    "authors": [
+        {
+            "name":   "Ralf Geschke",
+            "email":  "ralf@kuerbis.org"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/framework-bundle": "~2.1",
+        "jms/translation-bundle": "1.1.*@dev"
+    },
+
+    "autoload": {
+        "psr-4": { "Geschke\\TranslationGUIBundle\\": ""
+      }
+    }
+}
