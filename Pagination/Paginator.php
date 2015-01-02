@@ -34,16 +34,6 @@ class Paginator
         $this->calcMaxPages();
     }
 
-    public function setMaxPages($pages = 5)
-    {
-        $this->pages = $pages;
-    }
-
-    public function getMaxPages()
-    {
-        return $this->pages;
-    }
-
     public function setItemsPerPage($count = 10)
     {
         $this->itemsPerPage = $count;
@@ -88,6 +78,9 @@ class Paginator
         if ($this->maxPages > 1)
         {
             $this->is_paginated = true;
+        }
+        if ($this->currentPage > $this->maxPages) {
+            $this->currentPage = $this->maxPages;
         }
 
         return $this->maxPages;
@@ -169,5 +162,15 @@ class Paginator
             $offset = ($this->maxPages - 1) * $this->itemsPerPage;
         }
         return $offset;
+    }
+
+    public function getCurrentPage()
+    {
+        return $this->currentPage;
+    }
+
+    public function getMaxPage()
+    {
+        return $this->calcMaxPages();
     }
 }

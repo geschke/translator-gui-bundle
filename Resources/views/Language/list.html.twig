@@ -63,14 +63,13 @@
         <div class="col-md-12">
             <ul class="pagination">
 
-                <li><a href="{{ paginator.getFirst }}">Erste Seite</a></li>
-                <li><a href="{{ paginator.getPrev }}">Zurück</a></li>
+                <li {% if paginator.getCurrentPage == 1 %}class="disabled"{% endif %}><a href="{{ paginator.getFirst }}">Erste Seite</a></li>
+                <li {% if paginator.getCurrentPage == 1 %}class="disabled"{% endif %}><a href="{{ paginator.getPrev }}">&laquo;</a></li>
                 {% for page in paginator.getPages %}
-
                     <li {% if page.current %}class="active"{% endif %}><a href="{{ page.url }}">{{ page.number }}</a></li>
                 {% endfor %}
-                <li><a href="{{ paginator.getNext }}">Vor</a></li>
-                <li><a href="{{ paginator.getLast }}">Letzte Seite</a></li>
+                <li {% if paginator.getCurrentPage == paginator.getMaxPage %}class="disabled"{% endif %}><a href="{{ paginator.getNext }}">&raquo;</a></li>
+                <li {% if paginator.getCurrentPage == paginator.getMaxPage %}class="disabled"{% endif %}><a href="{{ paginator.getLast }}">Letzte Seite</a></li>
             </ul>
         </div>
     {% endif %}
