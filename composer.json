@@ -18,7 +18,7 @@
     },
 
     "autoload": {
-        "psr-4": {   "Geschke\\Bundle\\Admin\\TranslationGUIBundle\\": ""
+        "psr-4": {   "Geschke\\Bundle\\Admin\\TranslatorGUIBundle\\": ""
 
       }
     }
