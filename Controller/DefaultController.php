@@ -13,8 +13,6 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
 
-
-
         $translator = $this->get('translator');
         $welcome = $translator->trans("Welcome to Translator GUI Bundle!");
 
