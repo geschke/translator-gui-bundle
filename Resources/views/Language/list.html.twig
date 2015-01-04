@@ -3,7 +3,7 @@
 
 
 {% block admincontent %}
-    {% trans %}Messages{% endtrans %}
+    <h2>{% trans %}Messages{% endtrans %}</h2>
 
 
     {% for flashMessage in app.session.flashbag.get('message_success') %}
@@ -60,20 +60,26 @@
     </table>
 
     {% if paginator.is_paginated %}
-        <div class="col-md-12">
+        <div class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
             <ul class="pagination">
-
-                <li {% if paginator.getCurrentPage == 1 %}class="disabled"{% endif %}><a href="{{ paginator.getFirst }}">Erste Seite</a></li>
-                <li {% if paginator.getCurrentPage == 1 %}class="disabled"{% endif %}><a href="{{ paginator.getPrev }}">&laquo;</a></li>
+                <li {% if paginator.getCurrentPage == 1 %}class="disabled"{% endif %}><a href="{{ paginator.getFirst }}">&laquo;</a></li>
+                <li {% if paginator.getCurrentPage == 1 %}class="disabled"{% endif %}><a href="{{ paginator.getPrev }}">&lsaquo;</a></li>
                 {% for page in paginator.getPages %}
                     <li {% if page.current %}class="active"{% endif %}><a href="{{ page.url }}">{{ page.number }}</a></li>
                 {% endfor %}
-                <li {% if paginator.getCurrentPage == paginator.getMaxPage %}class="disabled"{% endif %}><a href="{{ paginator.getNext }}">&raquo;</a></li>
-                <li {% if paginator.getCurrentPage == paginator.getMaxPage %}class="disabled"{% endif %}><a href="{{ paginator.getLast }}">Letzte Seite</a></li>
+                <li {% if paginator.getCurrentPage == paginator.getMaxPage %}class="disabled"{% endif %}><a href="{{ paginator.getNext }}">&rsaquo;</a></li>
+                <li {% if paginator.getCurrentPage == paginator.getMaxPage %}class="disabled"{% endif %}><a href="{{ paginator.getLast }}">&raquo;</a></li>
             </ul>
-        </div>
+                </div>
+            </div>
     {% endif %}
 
+    <div class="row">
+        <div class="col-md-12">
+            Zurück zur <a class="btn btn-default" href="{{ path('geschke_admin_translator_gui_bundles') }}">Liste der Bundles</a>
+        </div>
+    </div>
 
 
     <!-- Modal -->

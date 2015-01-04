@@ -3,8 +3,14 @@
 
 
 {% block admincontent %}
-    <legend>{% trans %}Add new language{% endtrans %}</legend>
-
+    <legend>{% trans %}title.add_new_language{% endtrans %}</legend>
 
     {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    <div class="row">
+        <div class="col-md-12">
+            Zurück zur <a class="btn btn-default" href="{{ path('geschke_admin_translator_gui_bundles') }}">Liste der Bundles</a>
+        </div>
+    </div>
+
 {% endblock %}

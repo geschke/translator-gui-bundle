@@ -1,7 +1,14 @@
 {% extends "GeschkeAdminTranslatorGUIBundle::base_admin.html.twig" %}
 
 {%  block admincontent %}
-<div>
-<h1>{{ welcome }}</h1>
-</div>
+    <div class="jumbotron">
+        <h1>{{ welcome }}</h1>
+        <p>...</p>
+        <p>
+            <a class="btn btn-primary btn-lg" role="button" href="{{ path('geschke_admin_translator_gui_bundles') }}">Liste der Bundles</a>
+
+        </p>
+
+    </div>
+
 {% endblock %}
