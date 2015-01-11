@@ -13,7 +13,7 @@ class LanguageFile
     protected $locale;
     protected $filename;
     protected $bundle;
-
+    protected $localeAdditional;
 
     public function getLocale()
     {
@@ -43,6 +43,16 @@ class LanguageFile
     public function setBundle($bundle = null)
     {
         $this->bundle = $bundle;
+    }
+
+    public function getLocaleAdditional()
+    {
+        return $this->localeAdditional;
+    }
+
+    public function setLocaleAdditional($locale)
+    {
+        $this->localeAdditional = $locale;
     }
 
 

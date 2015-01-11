@@ -2,11 +2,10 @@
 
 {%  block admincontent %}
     <div class="jumbotron">
-        <h1>{{ welcome }}</h1>
-        <p>...</p>
+        <h1>{% trans %}home.title{% endtrans %}</h1>
+        <p>{% trans %}home.message{% endtrans %}</p>
         <p>
-            <a class="btn btn-primary btn-lg" role="button" href="{{ path('geschke_admin_translator_gui_bundles') }}">Liste der Bundles</a>
-
+            <a class="btn btn-primary btn-lg" role="button" href="{{ path('geschke_admin_translator_gui_bundles') }}">{% trans %}url.bundles{% endtrans %}</a>
         </p>
 
     </div>

@@ -15,7 +15,14 @@ class DefaultController extends Controller
 
         $translator = $this->get('translator');
         $welcome = $translator->trans("Welcome to Translator GUI Bundle!");
+        $locale = $request->getLocale();
+        $lc = $request->getDefaultLocale();
+        $lc2 = $request->getPreferredLanguage();
 
+var_dump($locale);
+        var_dump($lc);
+        var_dump($lc2);
+        die;
        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:index.html.twig',
             array(
                 'mainnav' => 'index',
@@ -76,14 +83,18 @@ class DefaultController extends Controller
         $languageFile = new LanguageFile();
         $languageFile->setBundle($bundle);
 
-        $locales = LocaleDefinitions::$csp_l10n_sys_locales;
+        $localesSmall = LocaleDefinitions::$csp_l10n_login_label;
+        $localesFull = LocaleDefinitions::$csp_l10n_sys_locales;
 
         $assets = $this->container->get('templating.helper.assets');
 
         $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
 
+        foreach ($localesSmall as $localeChoice => $language ) {
+            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeChoice . '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice ;
+        }
 
-        foreach ($locales as $localeChoice => $localeData ) {
+        foreach ($localesFull as $localeChoice => $localeData ) {
             $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'] ;
         }
 
@@ -94,7 +105,7 @@ class DefaultController extends Controller
                 'required'  => true,
                 'expanded' => true,
                 'choices' => $choices
-            ))
+            ))->add('locale_additional', 'text', array('label' => $translator->trans("or another locale definition")))
           //  ->add('dueDate', 'date')
             ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
             ->getForm();
@@ -137,7 +148,7 @@ class DefaultController extends Controller
                 'mainnav' => '',
                 'form' => $form->createView(),
                 'bundle' => $bundle,
-                'languages' => $locales
+                'languages' => $localesFull
             ));
     }
 

@@ -76,7 +76,7 @@ $refDomains = $reflect->getProperty('domains');
         $cnt = count($messageArray);
 
         $page = $request->get('page') ? $request->get('page') : 1;
-        $itemsPerPage = 10;
+        $itemsPerPage = 25;
 
         $paginator = new Paginator($page, $cnt, $itemsPerPage);
 
