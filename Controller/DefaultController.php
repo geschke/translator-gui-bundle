@@ -3,6 +3,7 @@
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Form\Type\LanguageChoiceType;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -83,7 +84,7 @@ var_dump($locale);
         $languageFile = new LanguageFile();
         $languageFile->setBundle($bundle);
 
-        $localesSmall = LocaleDefinitions::$csp_l10n_login_label;
+/*        $localesSmall = LocaleDefinitions::$csp_l10n_login_label;
         $localesFull = LocaleDefinitions::$csp_l10n_sys_locales;
 
         $assets = $this->container->get('templating.helper.assets');
@@ -98,6 +99,7 @@ var_dump($locale);
             $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'] ;
         }
 
+        //asort($choices);
         $form = $this->createFormBuilder($languageFile)
             ->add('bundle', 'hidden')
             ->add('locale', 'choice', array(
@@ -109,6 +111,9 @@ var_dump($locale);
           //  ->add('dueDate', 'date')
             ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
             ->getForm();
+*/
+
+        $form = $this->createForm('languagechoice', $languageFile);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -148,7 +153,7 @@ var_dump($locale);
                 'mainnav' => '',
                 'form' => $form->createView(),
                 'bundle' => $bundle,
-                'languages' => $localesFull
+              //  'languages' => $localesFull
             ));
     }
 

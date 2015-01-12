@@ -22,3 +22,9 @@ services:
         class: Geschke\Bundle\Admin\TranslatorGUIBundle\Extension\TwigExtension
         tags:
             - { name: twig.extension }
+
+    geschke_bundle_admin_translatorguibundle.form.type.languagechoice:
+        class: Geschke\Bundle\Admin\TranslatorGUIBundle\Form\Type\LanguageChoiceType
+        tags:
+            - { name: form.type, alias: languagechoice }
+        arguments: [@service_container, @translator]
