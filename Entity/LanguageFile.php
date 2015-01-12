@@ -55,5 +55,11 @@ class LanguageFile
         $this->localeAdditional = $locale;
     }
 
+    public function isLanguageChosen()
+    {
+        // todo here: check combination of chosen locale and input string of additional field.
+        
+        return false;
+    }
 
 }

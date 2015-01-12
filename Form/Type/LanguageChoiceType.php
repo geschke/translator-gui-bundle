@@ -45,13 +45,18 @@ class LanguageChoiceType extends AbstractType
             $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'] ;
         }
 
+        $choices['misc'] = "Miscellaneous, please specify below:";
+
+
+
         //asort($choices);
         $builder->add('bundle', 'hidden')
             ->add('locale', 'choice', array(
                 'label'     => $this->translator->trans("Choose language"),
                 'required'  => true,
                 'expanded' => true,
-                'choices' => $choices
+                'choices' => $choices,
+                'empty_data' => null
             ))->add('locale_additional', 'text', array('label' => $this->translator->trans("or another locale definition")))
             //  ->add('dueDate', 'date')
             ->add('save', 'submit', array('label' => $this->translator->trans("Create new language file")));
