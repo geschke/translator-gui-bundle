@@ -84,44 +84,19 @@ var_dump($locale);
         $languageFile = new LanguageFile();
         $languageFile->setBundle($bundle);
 
-/*        $localesSmall = LocaleDefinitions::$csp_l10n_login_label;
-        $localesFull = LocaleDefinitions::$csp_l10n_sys_locales;
-
-        $assets = $this->container->get('templating.helper.assets');
-
-        $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
-
-        foreach ($localesSmall as $localeChoice => $language ) {
-            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeChoice . '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice ;
-        }
-
-        foreach ($localesFull as $localeChoice => $localeData ) {
-            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'] ;
-        }
-
-        //asort($choices);
-        $form = $this->createFormBuilder($languageFile)
-            ->add('bundle', 'hidden')
-            ->add('locale', 'choice', array(
-                'label'     => $translator->trans("Choose language"),
-                'required'  => true,
-                'expanded' => true,
-                'choices' => $choices
-            ))->add('locale_additional', 'text', array('label' => $translator->trans("or another locale definition")))
-          //  ->add('dueDate', 'date')
-            ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
-            ->getForm();
-*/
-
         $form = $this->createForm('languagechoice', $languageFile);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
 
 
-            $locale = $form->get('locale')->getData();
-
+//            $locale = $form->get('locale')->getData();
+            $locale = $languageFile->getLocale();
             $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+
+
+
+
             $result = $localeFiles->rescanMessageFile($bundle, $locale);
 
 

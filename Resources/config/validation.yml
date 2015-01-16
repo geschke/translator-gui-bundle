@@ -6,5 +6,5 @@ Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile:
             - NotBlank: ~
     getters:
         languageChosen:
-            - "True": { message: "Please chose locale or enter locale string." }
+            - "True": { message: "Please choose locale or enter locale string." }
 

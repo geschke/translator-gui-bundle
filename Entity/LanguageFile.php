@@ -57,8 +57,27 @@ class LanguageFile
 
     public function isLanguageChosen()
     {
+        if (!$this->locale) {
+            return false;
+        }
+        if ($this->locale == 'misc') {
+            if (!trim($this->localeAdditional)) {
+                return false;
+            }
+            else {
+                $this->locale = trim($this->localeAdditional);
+                return true;
+            }
+        }
+        return true;
+        var_dump($this->localeAdditional);
+        var_dump($this->locale);
+        var_dump($this->bundle);
+        var_dump($this->filename);
+        die;
+
         // todo here: check combination of chosen locale and input string of additional field.
-        
+
         return false;
     }
 

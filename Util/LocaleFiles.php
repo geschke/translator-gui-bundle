@@ -66,6 +66,7 @@ class LocaleFiles
             $this->updateWithInput($bundleName, $builder);
 
             $config = $builder->setLocale($locale)->getConfig();
+//var_dump($config);
 
             /* echo sprintf('Keep old translations: <info>%s</info>', $config->isKeepOldMessages() ? 'Yes' : 'No');
              echo sprintf('Output-Path: <info>%s</info>', $config->getTranslationsDir());
@@ -79,7 +80,6 @@ class LocaleFiles
 
 
             $updater = $container->get('jms_translation.updater');
-
 
 //        if ($input->getOption('dry-run')) {
             $changeSet = $updater->getChangeSet($config);
