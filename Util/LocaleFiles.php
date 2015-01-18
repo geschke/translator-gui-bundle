@@ -52,6 +52,11 @@ class LocaleFiles
                         $locale = $ma[2];
                         $translationFiles[$i]['locale'] = $locale;
                     }
+                    if (isset($ma[1])) {
+                        $domain = $ma[1];
+                        $translationFiles[$i]['domain'] = $domain;
+                    }
+
                 }
             }
         }

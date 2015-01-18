@@ -64,7 +64,10 @@
                                 <div class="col-md-5">
                                     {% trans %}headline.bundle_language{% endtrans %}
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-2">
+                                    {% trans %}headline.bundle_domain{% endtrans %}
+                                </div>
+                                <div class="col-md-5">
                                     {% trans %}headline.bundle_actions{% endtrans %}
                                 </div>
                             </div>
@@ -84,7 +87,10 @@
                                         &nbsp;
                                         </p>
                                     </div>
-                                    <div class="col-md-7">
+                                    <div class="col-md-2">
+                                        {{ messageFile.domain }}
+                                    </div>
+                                    <div class="col-md-5">
                                         <p>
                                         <button data-locale="{{ messageFile.locale }}" type="button"
                                                 class="btn-action-edit btn btn-default btn-xs">
