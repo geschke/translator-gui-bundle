@@ -41,6 +41,7 @@ var_dump($locale);
 
 
         $csp_l10n_sys_locales = LocaleDefinitions::$csp_l10n_sys_locales;
+        $csp_l10n_langs = LocaleDefinitions::$csp_l10n_langs;
 
         $localeFiles = new LocaleFiles($kernel);
 
@@ -50,6 +51,10 @@ var_dump($locale);
             for ($i = 0; $i < count($messageFiles); $i++) {
                 //$messageFiles[$i]['additional'] = array();
 
+                if (!isset($csp_l10n_sys_locales[$messageFiles[$i]['locale']]) &&
+                !isset($csp_l10n_langs[$messageFiles[$i]['locale']])) {
+                    $messageFiles[$i]['unknown'] = true;
+                }
                 if (strlen($messageFiles[$i]['locale']) > 2) {
                     if (isset($csp_l10n_sys_locales[$messageFiles[$i]['locale']])) {
                         $messageFiles[$i]['additional'] = $csp_l10n_sys_locales[$messageFiles[$i]['locale']];
