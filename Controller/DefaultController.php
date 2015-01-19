@@ -16,14 +16,7 @@ class DefaultController extends Controller
 
         $translator = $this->get('translator');
         $welcome = $translator->trans("Welcome to Translator GUI Bundle!");
-        $locale = $request->getLocale();
-        $lc = $request->getDefaultLocale();
-        $lc2 = $request->getPreferredLanguage();
 
-var_dump($locale);
-        var_dump($lc);
-        var_dump($lc2);
-        die;
        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:index.html.twig',
             array(
                 'mainnav' => 'index',
@@ -64,6 +57,7 @@ var_dump($locale);
             $bundleList[] = array(
                 'name' => $bundle,
                 'fullName' => $bundleFullName,
+
                 'path' => $path,
                 'messageFiles' => $messageFiles
             );
@@ -72,11 +66,17 @@ var_dump($locale);
 //var_dump($bundleList);
   //      die;
         asort($bundleList);
+        $languageFile = new LanguageFile();
+       // $languageFile->setBundle($bundle);
+
+
+        $form = $this->createForm('languagechoice', $languageFile);
 
         return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
             array(
                 'mainnav' => 'bundles',
-                'bundles' => $bundleList
+                'bundles' => $bundleList,
+                'form_copy' => $form->createView()
 
             ));
     }

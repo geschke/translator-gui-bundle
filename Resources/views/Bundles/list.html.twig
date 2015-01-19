@@ -1,4 +1,5 @@
 {% extends "GeschkeAdminTranslatorGUIBundle::base_admin.html.twig" %}
+{% form_theme form_copy 'GeschkeAdminTranslatorGUIBundle:Form:fields.html.twig' %}
 
 {% block admincontent %}
     <h2>{% trans %}title.list_bundles{% endtrans %}</h2>
@@ -181,6 +182,29 @@
         </div>
     </div>
 
+    <div id="modalCopy" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title" id="myModalLabel"> {% trans %}title.languagefile_copy{% endtrans %}</h3>
+                </div>
+                <div class="modal-body">
+                    <div style="height: 300px; overflow: scroll; ">
+                    {{ form(form_copy, {'attr': {'novalidate': 'novalidate'}}) }}
+                    </div
+                    <p> {% trans %}message.languagefile_copy_warning{% endtrans %}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans %}button.languagefile_copy_cancel{% endtrans %}</button>
+                    <button class="btn btn-primary do-copy-action">{% trans %}button.languagefile_copy_confirm{% endtrans %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script type="text/javascript">
         var bundle = undefined; // maybe later: encapsulate in object or something...
         var locale = undefined;
@@ -198,6 +222,8 @@
                 bundle = $(this).parents('.bundle-item').attr('data-name');
                 locale = $(this).attr('data-locale');
                 console.log("copy chosen");
+                $('#modalCopy').modal(options);
+
             });
 
             $('.btn-action-delete').click(function () {
