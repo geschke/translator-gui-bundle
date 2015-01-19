@@ -24,7 +24,8 @@ class LocaleMessages extends ContainerAware
 //        $this->translator = $translator;
     }
 
-    public function getFilename($bundle, $locale)
+
+    public function getFilename($bundle, $locale, $domain)
     {
         $path = $this->kernel->locateResource('@' . $bundle);
 
@@ -33,10 +34,8 @@ class LocaleMessages extends ContainerAware
         $files = $localeFiles->getLanguages($path);
         $localeFile = null;
 
-        // todo here: regard translation domains. default is "messages", but it stops at first match
         foreach ($files as $localeData) {
-            if ($localeData['locale'] == $locale) {
-                //echo "locale file found!";
+            if ($localeData['locale'] == $locale && $localeData['domain'] == $domain) {
                 $localeFile = $localeData;
                 break;
             }
@@ -48,36 +47,18 @@ class LocaleMessages extends ContainerAware
         return $filename;
     }
 
-    public function getMessage($bundle, $locale, $messageKey)
+    public function getMessage($bundle, $locale, $messageKey, $domain = 'messages')
     {
 
-        $path = $this->kernel->locateResource('@' . $bundle);
-
-        $localeFiles = new LocaleFiles($this->kernel);
-
-        $files = $localeFiles->getLanguages($path);
-        $localeFile = null;
-
-        // todo here: regard translation domains. default is "messages", but it stops at first match
-        foreach ($files as $localeData) {
-            if ($localeData['locale'] == $locale) {
-                //echo "locale file found!";
-                $localeFile = $localeData;
-                break;
-            }
-        }
-
-        // var_dump($path);
-        // var_dump($localeFile);
-        $filename = $path . 'Resources/translations/' . $localeFile['file'];
+        $filename = $this->getFilename($bundle, $locale, $domain);
         // todo maybe: load other than xliff files
         // switch format, if xlf or xliff...
 //        $translator = $this->get('translator');
 
         //  $handle = fopen($filename,'r');
-        $foo = new XliffLoader();
+        $loader = new XliffLoader();
         //$foo = new XliffFileLoader();
-        $messages = $foo->load($filename, $locale);
+        $messages = $loader->load($filename, $locale, $domain);
 
 
         $reflect = new \ReflectionClass($messages);
@@ -94,7 +75,7 @@ class LocaleMessages extends ContainerAware
         $refDomains->setAccessible(true);
 
         $r = $refDomains->getValue($messages);
-        $messageCollection = $r['messages'];
+        $messageCollection = $r[$domain];
         $messageArray = $messageCollection->all();
 
         if (isset($messageArray[$messageKey])) {
@@ -103,17 +84,17 @@ class LocaleMessages extends ContainerAware
         return false;
     }
 
-    public function updateMessage($bundle, $locale, $messageKey, $translation)
+    public function updateMessage($bundle, $locale, $messageKey, $translation, $domain = 'messages')
     {
         // todo: support another translation formats, not only xliff...
         $container = $this->kernel->getContainer();
         $updater = $container->get('jms_translation.updater');
-        $filename = $this->getFilename($bundle, $locale);
+        $filename = $this->getFilename($bundle, $locale, $domain);
         // todo: check filename, does it exist?
 //        $file = '/vol/www/test.geschke.net/htdocs/geschkenet/website/src/Geschke/Bundle/Admin/TranslatorGUIBundle/Resources/translations/messages.de.xliff';
 
         $updater->updateTranslation(
-            $filename, 'xliff', 'messages', $locale, $messageKey,
+            $filename, 'xliff', $domain, $locale, $messageKey,
             $translation
         );
         return true;

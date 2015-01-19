@@ -24,6 +24,10 @@ class LanguageController extends Controller
 
         $bundle = $request->get('bundle');
         $locale = $request->get('locale');
+        $domain = $request->get('domain');
+        if (!$domain) {
+            $domain = 'messages';
+        }
 
         $bundles = $this->container->getParameter('kernel.bundles');
 
@@ -36,37 +40,36 @@ class LanguageController extends Controller
         $files = $localeFiles->getLanguages($path);
         $localeFile = null;
         foreach ($files as $localeData) {
-            if ($localeData['locale'] == $locale) {
+
+            if ($localeData['locale'] == $locale && $localeData['domain'] == $domain) {
                 //echo "locale file found!";
                 $localeFile = $localeData;
                 break;
             }
         }
 
-       // var_dump($path);
-       // var_dump($localeFile);
         $filename = $path . 'Resources/translations/' . $localeFile['file'];
         // todo maybe: load other than xliff files
         // switch format, if xlf or xliff...
         $translator = $this->get('translator');
 
         //  $handle = fopen($filename,'r');
-        $foo = new XliffLoader();
+        $loader = new XliffLoader();
         //$foo = new XliffFileLoader();
-        $messages = $foo->load($filename, $locale);
+        $messages = $loader->load($filename, $locale);
 
 
         $reflect = new \ReflectionClass($messages);
-  //      $props   = $reflect->getProperties();
+        //      $props   = $reflect->getProperties();
 
 
-      /*  foreach ($props as $prop) {
-            print $prop->getName() . "\n";
-        }
-*/
-       // var_dump($props);
+        /*  foreach ($props as $prop) {
+              print $prop->getName() . "\n";
+          }
+  */
+        // var_dump($props);
 
-$refDomains = $reflect->getProperty('domains');
+        $refDomains = $reflect->getProperty('domains');
         $refDomains->setAccessible(true);
 
         $r = $refDomains->getValue($messages);
@@ -95,9 +98,8 @@ $refDomains = $reflect->getProperty('domains');
             ->add('locale', 'hidden')
             ->add('message', 'textarea', array('disabled' => true))
             ->add('translation', 'textarea')
-
             //  ->add('dueDate', 'date')
-           // ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
+            // ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
             ->getForm();
 
 
@@ -106,6 +108,7 @@ $refDomains = $reflect->getProperty('domains');
                 'mainnav' => '',
                 'bundle' => $bundle,
                 'locale' => $locale,
+                'domain' => $domain,
                 'messages' => $messages,
                 'form' => $form->createView(),
                 'paginator' => $paginator
@@ -121,7 +124,7 @@ $refDomains = $reflect->getProperty('domains');
         $bundle = $request->get('bundle');
         $locale = $request->get('locale');
 
-       // var_dump($bundle);
+        // var_dump($bundle);
         //var_dump($locale);
 
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
@@ -130,7 +133,7 @@ $refDomains = $reflect->getProperty('domains');
         if ($result !== false) { // result returns number of found new messages or false, if failed
             $result = true;
         }
-       // sleep(3);
+        // sleep(3);
         $response = new JsonResponse();
         /*
          {
@@ -151,11 +154,11 @@ displaymsg: "resource not found error"
     }
 
 
-
     public function translateAction(Request $request)
     {
         $bundle = $request->get('bundle');
         $locale = $request->get('locale');
+        $domain = $request->get('domain');
         $messageId = $request->get('messageId');
 
         // get message from file...
@@ -167,10 +170,11 @@ displaymsg: "resource not found error"
         $messageResponse = new MessageTranslationResponse();
         $messageResponse->setLocale($locale);
         $messageResponse->setBundle($bundle);
+        $messageResponse->setDomain($domain);
 
         $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
 
-        $messageInstance = $localeMessages->getMessage($bundle, $locale, $messageId);
+        $messageInstance = $localeMessages->getMessage($bundle, $locale, $messageId, $domain);
 
         if ($messageInstance) {
 
@@ -182,8 +186,7 @@ displaymsg: "resource not found error"
             $messageResponse->setSuccess(true);
             $messageResponse->setMessageTranslation($message);
 
-        }
-        else {
+        } else {
 
             $messageResponse->setSuccess(false);
         }
@@ -196,14 +199,14 @@ displaymsg: "resource not found error"
 
     public function processTranslateAction(Request $request)
     {
-       // var_dump($request->get('locale'));
-       // var_dump($request->get('bundle'));
+        // var_dump($request->get('locale'));
+        // var_dump($request->get('bundle'));
         //var_dump($request->get('message'));
         //var_dump($request->get('translation'));
 
         $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
 
-        $success = $localeMessages->updateMessage($request->get('bundle'), $request->get('locale'), $request->get('message'), $request->get('translation'));
+        $success = $localeMessages->updateMessage($request->get('bundle'), $request->get('locale'), $request->get('message'), $request->get('translation'), $request->get('domain'));
 
 
         $encoders = array(new JsonEncoder());
@@ -222,11 +225,11 @@ displaymsg: "resource not found error"
             $message->setMessage($request->get('message'));
             $message->setTranslation($request->get('translation'));
 
+
             $messageResponse->setSuccess(true);
             $messageResponse->setMessageTranslation($message);
 
-        }
-        else {
+        } else {
             $messageResponse->setSuccess(false);
         }
 
@@ -238,4 +241,4 @@ displaymsg: "resource not found error"
 
     }
 
-    }
+}

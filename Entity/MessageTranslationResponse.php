@@ -15,6 +15,7 @@ class MessageTranslationResponse
     protected $success;
     protected $bundle;
     protected $locale;
+    protected $domain;
 
     public function getSuccess()
     {
@@ -35,6 +36,17 @@ class MessageTranslationResponse
     {
         $this->locale = $locale;
     }
+
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    public function setDomain($domain)
+    {
+        $this->domain = $domain;
+    }
+
 
     public function getMessageTranslation()
     {
