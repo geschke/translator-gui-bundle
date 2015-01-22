@@ -12,6 +12,7 @@ namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Entity;
 class MessageTranslationResponse
 {
     protected $messageTranslation;
+    protected $messageTranslationReference;
     protected $success;
     protected $bundle;
     protected $locale;
@@ -57,6 +58,18 @@ class MessageTranslationResponse
     {
         $this->messageTranslation = $messageTranslation;
     }
+
+    public function getMessageTranslationReference()
+    {
+        return $this->messageTranslationReference;
+    }
+
+    public function setMessageTranslationReference(MessageTranslation $messageTranslation)
+    {
+        $this->messageTranslationReference = $messageTranslation;
+    }
+
+
 
     public function getBundle()
     {

@@ -183,6 +183,21 @@ displaymsg: "resource not found error"
             $message->setMessage($messageInstance->getSourceString());
             $message->setTranslation($messageInstance->getLocaleString());
 
+            // load message translation reference, ar first it will be english language
+            $messageInstanceReference = $localeMessages->getMessage($bundle, 'en',  $messageId, $domain);
+
+            // just hardcoded here
+            // todo: if file not found, don't fail hardly
+
+            if ($messageInstanceReference) {
+                $messageRef = new MessageTranslation();
+                $messageRef->setLocale('en');
+                $messageRef->setMessage($messageInstanceReference->getSourceString());
+                $messageRef->setTranslation($messageInstanceReference->getLocaleString());
+                $messageResponse->setMessageTranslationReference($messageRef);
+
+            }
+
             $messageResponse->setSuccess(true);
             $messageResponse->setMessageTranslation($message);
 
