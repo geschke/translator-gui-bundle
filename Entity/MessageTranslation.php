@@ -13,6 +13,7 @@ class MessageTranslation
 {
     protected $locale;
     protected $message;
+    protected $messageReference;
     protected $translation;
 
     public function getLocale()
@@ -33,6 +34,16 @@ class MessageTranslation
     public function setMessage($message = null)
     {
         $this->message = $message;
+    }
+
+    public function getMessageReference()
+    {
+        return $this->messageReference;
+    }
+
+    public function setMessagereference($message = null)
+    {
+        $this->messageReference = $message;
     }
 
     public function getTranslation()

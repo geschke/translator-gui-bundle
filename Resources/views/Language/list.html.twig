@@ -19,6 +19,10 @@
         </div>
     {% endfor %}
 
+
+
+
+
     <table class="table table-striped ">
         <thead>
         <tr>
@@ -93,6 +97,18 @@
                 </div>
                 <div class="modal-body" id="modal-edit-body" data-identifier="">
 
+                    <div class="dropdown" id="chooseTranslationReference">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% trans %}button.toggle_translation_reference{% endtrans %}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            {% for key, messageFile in messageFiles %}
+                                <li><a href="#">{{ messageFile.locale }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <br/>
                     {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 </div>
                 <div class="modal-footer">
@@ -114,6 +130,11 @@
         var adminUrl = '{{ path('geschke_admin_translator_gui_homepage') }}';
         $(function () {
 
+          $('.dropdown-toggle').dropdown();
+            $('#chooseTranslationReference').on('shown.bs.dropdown', function () {
+                console.log("something happened");
+            });
+
             $('.btn-action-edit').click(function () {
                 var modal = $('#modalTranslate');
                 var messageId = $(this).parents('.message-item').attr('data-id');
@@ -124,9 +145,12 @@
                 var url = adminUrl + 'language-translate/';
                 $('#form_locale').val(locale);
                 $('#form_message').val('');
+                $('#form_message_reference').val('');
                 $('#form_translation').val('');
                 $('#modal-edit-body').attr('data-identifier', identifier);
                 modal.modal('show');
+
+
 
                 $.ajax({
                     type: "GET",
@@ -135,6 +159,7 @@
                 })
                         .done(function (msg) {
                             $('#form_message').val(msg.messageTranslation.message);
+                            $('#form_message_reference').val(msg.messageTranslationReference.message);
                             $('#form_translation').val(msg.messageTranslation.translation);
                         });
             });

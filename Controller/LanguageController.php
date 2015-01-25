@@ -37,14 +37,33 @@ class LanguageController extends Controller
 
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
 
-        $files = $localeFiles->getLanguages($path);
+        $messageFiles = $localeFiles->getLanguages($path);
         $localeFile = null;
-        foreach ($files as $localeData) {
+        foreach ($messageFiles as $localeData) {
 
             if ($localeData['locale'] == $locale && $localeData['domain'] == $domain) {
                 //echo "locale file found!";
                 $localeFile = $localeData;
                 break;
+            }
+        }
+
+        // build array with all current languages in the bundle
+        $countMessageFiles = count($messageFiles);
+        for ($i = 0; $i < $countMessageFiles; $i++) {
+            //$messageFiles[$i]['additional'] = array();
+            if ($messageFiles[$i]['domain'] != $domain) {
+                unset($messageFiles[$i]);
+                continue;
+            }
+            if (!isset($csp_l10n_sys_locales[$messageFiles[$i]['locale']]) &&
+                !isset($csp_l10n_langs[$messageFiles[$i]['locale']])) {
+                $messageFiles[$i]['unknown'] = true;
+            }
+            if (strlen($messageFiles[$i]['locale']) > 2) {
+                if (isset($csp_l10n_sys_locales[$messageFiles[$i]['locale']])) {
+                    $messageFiles[$i]['additional'] = $csp_l10n_sys_locales[$messageFiles[$i]['locale']];
+                }
             }
         }
 
@@ -96,7 +115,9 @@ class LanguageController extends Controller
 
         $form = $this->createFormBuilder($messageTranslation)
             ->add('locale', 'hidden')
+            ->add('message_reference', 'textarea', array('disabled' => true, 'required' => false))
             ->add('message', 'textarea', array('disabled' => true))
+
             ->add('translation', 'textarea')
             //  ->add('dueDate', 'date')
             // ->add('save', 'submit', array('label' => $translator->trans("Create new language file")))
@@ -110,6 +131,7 @@ class LanguageController extends Controller
                 'locale' => $locale,
                 'domain' => $domain,
                 'messages' => $messages,
+                'messageFiles' => $messageFiles,
                 'form' => $form->createView(),
                 'paginator' => $paginator
 
