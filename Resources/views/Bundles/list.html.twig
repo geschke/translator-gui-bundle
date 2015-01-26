@@ -184,17 +184,20 @@
 
     <div id="modalCopy" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg ">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h3 class="modal-title" id="myModalLabel"> {% trans %}title.languagefile_copy{% endtrans %}</h3>
                 </div>
-                <div class="modal-body">
-                    <div style="height: 300px; overflow: scroll; ">
+                <div class="modal-body" id="modal-copy-body" data-bundle="" data-domain="" data-locale="">
+
+                    <div id="alertCopyError" style="display: block;"></div>
+
+                    <div style="height: 360px; overflow-y: scroll; overflow-x: hidden;">
                     {{ form(form_copy, {'attr': {'novalidate': 'novalidate'}}) }}
                     </div>
-                    <p> {% trans %}message.languagefile_copy_warning{% endtrans %}</p>
+
                 </div>
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans %}button.languagefile_copy_cancel{% endtrans %}</button>
@@ -220,11 +223,61 @@
             $('.btn-action-copy').click(function () {
                 var options = {};
                 bundle = $(this).parents('.bundle-item').attr('data-name');
-                locale = $(this).attr('data-locale');
-                console.log("copy chosen");
+
+                //var messageId = $(this).parents('.message-item').attr('data-id');
+                //var identifier = $(this).parents('.message-item').attr('data-identifier');
+
+                var locale = $(this).attr('data-locale');
+                var domain = $(this).attr('data-domain');
+                $('#languagechoice_locale_additional').val('');
+
+                //$('#modal-edit-body').attr('data-identifier', identifier);
+                $('#modal-copy-body').attr('data-domain', domain);
+                $('#modal-copy-body').attr('data-bundle', bundle);
+                $('#modal-copy-body').attr('data-locale', locale);
+
                 $('#modalCopy').modal(options);
 
             });
+
+            $('.do-copy-action').click(function() {
+               console.log("do copy action");
+                var modal = $('#modalCopy');
+
+
+                //console.log($('#languagechoice_locale').children( "[type=radio]" ));
+                var localeChosen = $("input[name='languagechoice[locale]']:checked").val();
+                if (localeChosen == undefined) {
+                    console.log("no locale chosen");
+                    var identifier = 'whatever';
+
+                    $('#alertCopyError').html('<div id="box-alert_' + identifier + '" >' +
+                    '<div id="alert_' + identifier + '" class="alert alert-danger alert-dismissible fade in">' +
+                    '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans %}button.close{% endtrans %}</span></button>' +
+                    '{% trans %}message.translation_save_error{% endtrans %}.</div></div>');
+                    setTimeout(function () {
+                        $('#alert_' + identifier).alert('close');
+                    }, 2500);
+                    $('#alert_' + identifier).on('closed.bs.alert', function () {
+                        $('#box-alert_' + identifier).remove();
+                    });
+
+                    return;
+                }
+
+                var localeAdditional = $('#languagechoice_locale_additional').val();
+                var domain = $('#modal-copy-body').attr('data-domain');
+                var bundle = $('#modal-copy-body').attr('data-bundle');
+                var locale = $('#modal-copy-body').attr('data-locale');
+
+
+                // todo: validate input values: check radio button, don't submit when not chosen
+                // submit additional locale value if chosen "misc"
+
+                modal.modal('hide');
+               // window.location = adminUrl + 'language-copy/?bundle=' + bundle + '&local_frome=' + locale + '&local_to=' + localeChosen + '&domain=' + domain;
+            });
+
 
             $('.btn-action-delete').click(function () {
                 var options = {};

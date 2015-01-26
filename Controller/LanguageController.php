@@ -151,15 +151,7 @@ class LanguageController extends Controller
         }
         // sleep(3);
         $response = new JsonResponse();
-        /*
-         {
-success: false,
-error: {
-errorcode: "7y7",
-displaymsg: "resource not found error"
-}
-}
-         */
+
         $response->setData(array(
             'success' => $result,
             'bundle' => $bundle,
@@ -348,5 +340,93 @@ displaymsg: "resource not found error"
         return $response;
 
     }
+
+
+    public function processCopyAction(Request $request)
+    {
+
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
+        $domain = $request->get('domain');
+        $translator = $this->get('translator');
+
+        $result = true;
+        if ($result === false) {
+            $this->get('session')->getFlashBag()->add(
+                'message_error',
+                $translator->trans('Error by copying language file.')
+            );
+        }
+        elseif ($result === 0) {
+            $this->get('session')->getFlashBag()->add(
+                'message_warning',
+                $translator->trans('Something happened. Don\'t know more yet.')
+            );
+        } else {
+            // result > 0
+            $this->get('session')->getFlashBag()->add(
+                'message_success',
+                'The language file was copied successfully.'
+            );
+        }
+        die("hard");
+        return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
+
+
+
+        // simulate response...
+        $response = new JsonResponse();
+
+        $result = true;
+        $response->setData(array(
+            'success' => $result,
+            'bundle' => $bundle,
+            'locale' => $locale,
+        ));
+
+        return $response;
+
+        // var_dump($request->get('locale'));
+        // var_dump($request->get('bundle'));
+        //var_dump($request->get('message'));
+        //var_dump($request->get('translation'));
+
+        $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
+
+        $success = $localeMessages->updateMessage($request->get('bundle'), $request->get('locale'), $request->get('message'), $request->get('translation'), $request->get('domain'));
+
+
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+
+        $messageResponse = new MessageTranslationResponse();
+        $messageResponse->setLocale($request->get('locale'));
+        $messageResponse->setBundle($request->get('bundle'));
+        if ($success) {
+            // or get translation from file?
+            $message = new MessageTranslation();
+            $message->setLocale($request->get('locale'));
+            $message->setMessage($request->get('message'));
+            $message->setTranslation($request->get('translation'));
+
+
+            $messageResponse->setSuccess(true);
+            $messageResponse->setMessageTranslation($message);
+
+        } else {
+            $messageResponse->setSuccess(false);
+        }
+
+        $jsonContent = $serializer->serialize($messageResponse, 'json');
+        $response = new Response();
+        $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
+    }
+
 
 }

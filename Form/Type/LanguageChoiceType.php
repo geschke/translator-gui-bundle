@@ -12,6 +12,8 @@ use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleDefinitions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -21,10 +23,13 @@ class LanguageChoiceType extends AbstractType
     private $container;
     private $translator;
 
-    public function __construct(ContainerInterface $container, TranslatorInterface $translator)
+    private $submitButton;
+
+    public function __construct(ContainerInterface $container, TranslatorInterface $translator, $submitButton = true)
     {
         $this->container = $container;
         $this->translator = $translator;
+        $this->submitButton = $submitButton;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -47,8 +52,6 @@ class LanguageChoiceType extends AbstractType
 
         $choices['misc'] = "Miscellaneous, please specify below:";
 
-
-
         //asort($choices);
         $builder->add('bundle', 'hidden')
             ->add('locale', 'choice', array(
@@ -57,9 +60,19 @@ class LanguageChoiceType extends AbstractType
                 'expanded' => true,
                 'choices' => $choices,
                 'empty_data' => null
-            ))->add('locale_additional', 'text', array('label' => $this->translator->trans("or another locale definition")))
-            //  ->add('dueDate', 'date')
-            ->add('save', 'submit', array('label' => $this->translator->trans("Create new language file")));
+            ))->add('locale_additional', 'text', array('label' => $this->translator->trans("or another locale definition")));
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            //$foo = $event->getData();
+            $form = $event->getForm();
+                //var_dump($this->submitButton);
+
+            //if (!$product || null === $product->getId()) {
+            if ($this->submitButton) {
+                $form->add('save', 'submit', array('label' => $this->translator->trans("Create new language file")));
+                //}
+            }
+        });
 
     }
 

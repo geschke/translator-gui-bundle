@@ -70,15 +70,7 @@ class LanguageFile
             }
         }
         return true;
-        var_dump($this->localeAdditional);
-        var_dump($this->locale);
-        var_dump($this->bundle);
-        var_dump($this->filename);
-        die;
 
-        // todo here: check combination of chosen locale and input string of additional field.
-
-        return false;
     }
 
 }

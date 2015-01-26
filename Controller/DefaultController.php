@@ -32,6 +32,7 @@ class DefaultController extends Controller
 
         $kernel = $this->container->get('kernel');
 
+        $translator = $this->get('translator');
 
         $csp_l10n_sys_locales = LocaleDefinitions::$csp_l10n_sys_locales;
         $csp_l10n_langs = LocaleDefinitions::$csp_l10n_langs;
@@ -63,14 +64,15 @@ class DefaultController extends Controller
             );
         }
 
-//var_dump($bundleList);
-  //      die;
+
         asort($bundleList);
+
         $languageFile = new LanguageFile();
-       // $languageFile->setBundle($bundle);
+        //$form = $this->createForm('languagechoice', $languageFile);
+        $form = $this->createForm(
+            new LanguageChoiceType($this->container, $translator, false)
+        );
 
-
-        $form = $this->createForm('languagechoice', $languageFile);
 
         return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
             array(
@@ -108,13 +110,13 @@ class DefaultController extends Controller
             if ($result === false) {
                 $this->get('session')->getFlashBag()->add(
                     'message_error',
-                    'Error by creating language file.'
+                    $translator->trans('Error by creating language file.')
                 );
             }
             elseif ($result === 0) {
                 $this->get('session')->getFlashBag()->add(
                     'message_warning',
-                    'No messages found. The language file was not created.'
+                    $translator->trans('No messages found. The language file was not created.')
                 );
             } else {
                 // result > 0
@@ -142,6 +144,8 @@ class DefaultController extends Controller
         $bundle = $request->get('bundle');
         $locale = $request->get('locale');
 
+        $translator = $this->get('translator');
+
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
         $result = $localeFiles->deleteMessageFile($bundle, $locale);
 
@@ -149,13 +153,13 @@ class DefaultController extends Controller
         if ($result) {
             $this->get('session')->getFlashBag()->add(
                 'message_success',
-                'The language file was deleted successfully.'
+                $translator->trans('The language file was deleted successfully.')
             );
 
         } else {
             $this->get('session')->getFlashBag()->add(
                 'message_error',
-                'Error by deleting language file.'
+                $translator->trans('Error by deleting language file.')
             );
         }
 
