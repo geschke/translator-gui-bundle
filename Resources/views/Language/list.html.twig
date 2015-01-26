@@ -35,7 +35,7 @@
             </th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="messageItems">
 
         {% for key, message in messages %}
 
@@ -95,8 +95,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h3 class="modal-title" id="myModalLabel"> {% trans %}title.message_translate{% endtrans %}</h3>
                 </div>
-                <div class="modal-body" id="modal-edit-body" data-identifier="">
+                <div class="modal-body" id="modal-edit-body" data-identifier="" data-domain="">
 
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
                     <div class="dropdown" id="chooseTranslationReference">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {% trans %}button.toggle_translation_reference{% endtrans %}
@@ -104,11 +106,13 @@
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                             {% for key, messageFile in messageFiles %}
-                                <li><a href="#">{{ messageFile.locale }}</a></li>
+                                <li><a class="chooseLocaleReference" data-locale="{{ messageFile.locale }}" href="#">{{ messageFile.locale }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>
-                    <br/>
+                        <br/>
+                        </div>
+                    
                     {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 </div>
                 <div class="modal-footer">
@@ -125,15 +129,59 @@
         var bundle = "{{ bundle }}" || undefined; // maybe later: encapsulate in object or something...
         var locale = "{{ locale }}" || undefined;
         var domain = "{{ domain }}" || undefined;
+        var localeReference = "{{ localeReference }}" || undefined;
 
 
         var adminUrl = '{{ path('geschke_admin_translator_gui_homepage') }}';
         $(function () {
 
-          $('.dropdown-toggle').dropdown();
-            $('#chooseTranslationReference').on('shown.bs.dropdown', function () {
+         // $('.dropdown-toggle').dropdown();
+/*            $('#chooseTranslationReference').on('shown.bs.dropdown', function () {
                 console.log("something happened");
             });
+            $('#chooseTranslationReference').on('hidden.bs.dropdown', function () {
+                console.log("something happened again");
+            });
+*/
+            $('.chooseLocaleReference').on('click', function () {
+                //console.log("again");
+                localeReference = $(this).attr('data-locale');
+
+
+                var identifier = $('#modalTranslate').children().find('#modal-edit-body').attr('data-identifier');
+                var messageId = ($('#messageItems').children("[data-identifier='" + identifier + "']").attr('data-id'));
+                // todo: check existence of identifier and messageId
+
+               // var locale =  $('#form_locale').val();
+                //var domain = $(this).attr('data-domain');
+                var url = adminUrl + 'language-messageref/';
+
+            /*    console.log(identifier);
+                console.log(messageId);
+                console.log(url);
+                console.log(domain);
+                console.log(bundle);
+                console.log(locale);
+                console.log(localeReference);
+*/
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {bundle: bundle, locale: localeReference, domain: domain, messageId: messageId}
+                })
+                        .done(function (msg) {
+                            //console.log(msg);
+                            if (msg.success == true) {
+                                $('#form_message_reference').val(msg.messageTranslation.translation);
+                            }
+                          //  $('#form_message').val(msg.messageTranslation.message);
+                          //  $('#form_message_reference').val(msg.messageTranslationReference.message);
+                          //  $('#form_translation').val(msg.messageTranslation.translation);
+                        });
+
+            });
+
+
 
             $('.btn-action-edit').click(function () {
                 var modal = $('#modalTranslate');
@@ -188,7 +236,7 @@
 
                             if (msg.success == true) {
                                 var message = msg.messageTranslation;
-                                $('#translation_' + identifier).html(message.translation);
+                                $('#translation_' + identifier).val(message.translation);
                             }
                             else {
                                 $('#message_' + identifier).before('<div id="box-alert_' + identifier + '" class="col-md-12">' +

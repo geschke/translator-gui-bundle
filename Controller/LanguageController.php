@@ -79,14 +79,6 @@ class LanguageController extends Controller
 
 
         $reflect = new \ReflectionClass($messages);
-        //      $props   = $reflect->getProperties();
-
-
-        /*  foreach ($props as $prop) {
-              print $prop->getName() . "\n";
-          }
-  */
-        // var_dump($props);
 
         $refDomains = $reflect->getProperty('domains');
         $refDomains->setAccessible(true);
@@ -124,11 +116,13 @@ class LanguageController extends Controller
             ->getForm();
 
 
+
         return $this->render('GeschkeAdminTranslatorGUIBundle:Language:list.html.twig',
             array(
                 'mainnav' => '',
                 'bundle' => $bundle,
                 'locale' => $locale,
+                'localeReference' => $this->getLocaleReference($request),
                 'domain' => $domain,
                 'messages' => $messages,
                 'messageFiles' => $messageFiles,
@@ -172,6 +166,83 @@ displaymsg: "resource not found error"
             'locale' => $locale,
         ));
 
+        return $response;
+    }
+
+    protected function setLocaleReference(Request $request, $locale)
+    {
+        $logger = $this->get('logger');
+        $logger->info('set locale to ' . $locale);
+
+        $session = $request->getSession();
+        $session->set('translator-gui-bundle-localeReference', $locale);
+        return true;
+    }
+
+    protected function getLocaleReference(Request $request)
+    {
+        $session = $request->getSession();
+        $localeReference = $session->get('translator-gui-bundle-localeReference');
+        if (!$localeReference) {
+            $localeReference = 'en';
+        }
+        $this->setLocaleReference($request, $localeReference);
+        $logger = $this->get('logger');
+        $logger->info('get locale reference with value  ' . $localeReference);
+
+
+        return $localeReference;
+    }
+
+
+    public function messageReferenceAction(Request $request)
+    {
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
+        $domain = $request->get('domain');
+        $messageId = $request->get('messageId');
+
+        $this->setLocaleReference($request, $locale);
+
+      /*  var_dump($messageId);
+        var_dump($domain);
+        var_dump($bundle);
+        var_dump($locale);
+        die;
+*/
+        // get message from file...
+        // fill MessageTranslation object
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $messageResponse = new MessageTranslationResponse();
+        $messageResponse->setLocale($locale);
+        $messageResponse->setBundle($bundle);
+        $messageResponse->setDomain($domain);
+
+        $localeMessages = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_messages');
+
+        $messageInstance = $localeMessages->getMessage($bundle, $locale, $messageId, $domain);
+
+        if ($messageInstance) {
+
+            $message = new MessageTranslation();
+            $message->setLocale($locale);
+            $message->setMessage($messageInstance->getSourceString());
+            $message->setTranslation($messageInstance->getLocaleString());
+
+            $messageResponse->setSuccess(true);
+            $messageResponse->setMessageTranslation($message);
+
+        } else {
+
+            $messageResponse->setSuccess(false);
+        }
+        $jsonContent = $serializer->serialize($messageResponse, 'json');
+        $response = new Response();
+        $response->setContent($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 

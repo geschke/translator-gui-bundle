@@ -52,7 +52,7 @@ class LanguageChoiceType extends AbstractType
         //asort($choices);
         $builder->add('bundle', 'hidden')
             ->add('locale', 'choice', array(
-                'label'     => $this->translator->trans("Choose language"),
+                'label'     => $this->translator->trans("Choose language<br/>\"hm\"<foo>bar</foo>"),
                 'required'  => true,
                 'expanded' => true,
                 'choices' => $choices,
