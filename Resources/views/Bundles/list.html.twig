@@ -277,8 +277,8 @@
                 // submit additional locale value if chosen "misc"
 
                 modal.modal('hide');
-                console.log(adminUrl + 'language-copy/?bundle=' + bundle + '&local_frome=' + locale + '&local_to=' + localeChosen + '&domain=' + domain);
-              window.location = adminUrl + 'language-copy/?bundle=' + bundle + '&local_frome=' + locale + '&local_to=' + localeChosen + '&domain=' + domain;
+                console.log(adminUrl + 'language-copy/?bundle=' + bundle + '&locale_from=' + locale + '&locale_to=' + localeChosen + '&domain=' + domain);
+              window.location = adminUrl + 'language-copy/?bundle=' + bundle + '&locale_from=' + locale + '&locale_to=' + localeChosen + '&domain=' + domain;
             });
 
             $('.btn-action-delete').click(function () {

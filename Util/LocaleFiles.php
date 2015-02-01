@@ -166,4 +166,53 @@ class LocaleFiles
 
     }
 
+    
+    public function copyMessageFile($bundleName, $domain, $localeFrom, $localeTo)
+    {
+        $filesError = $filesCopied = array();
+
+
+        $path = $this->kernel->locateResource('@' . $bundleName);
+
+        $fs = new Filesystem();
+
+        $files = $this->getLanguages($path);
+
+        $localeFile = null;
+        
+        foreach ($files as $localeData) {
+            if ($localeData['locale'] == $localeFrom) {
+                
+                $localeFile = $localeData['file'];
+                try {
+                    $completeFileSource = $path . 'Resources/translations/' . $localeFile;
+                    $completeFileTarget = $path . 'Resources/translations/' . $localeData['domain'] . '.' . $localeTo . '.' . $localeData['format'];
+
+                    $fs->copy($completeFileSource, $completeFileTarget);
+                    
+                    
+                    $filesCopied[] = $localeFile;
+                } catch (IOExceptionInterface $e) {
+                    $filesError[] = $localeFile;
+                 
+                }
+           }
+        }
+        
+        var_dump($localeFile);
+        var_dump($filesError);
+var_dump($filesCopied);
+die;
+        if ($localeFile === null) {
+            return false;
+        }
+        // todo maybe in future: get more information about failed deletion
+        if (count($filesError)) {
+            return false;
+        }
+      return true;
+
+    }
+
+    
 }

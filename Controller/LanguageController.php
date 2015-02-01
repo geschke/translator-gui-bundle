@@ -350,9 +350,15 @@ class LanguageController extends Controller
         $localeTo = $request->get('locale_to');
         $domain = $request->get('domain');
         
+        $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+        $result = $localeFiles->copyMessageFile($bundle, $domain, $localeFrom, $localeTo);
+
+        if ($result !== false) { // result returns number of found new messages or false, if failed
+            $result = true;
+        }
+        
         $translator = $this->get('translator');
 
-        $result = true;
         if ($result === false) {
             $this->get('session')->getFlashBag()->add(
                 'message_error',

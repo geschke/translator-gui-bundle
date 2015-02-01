@@ -236,7 +236,9 @@
 
                             if (msg.success == true) {
                                 var message = msg.messageTranslation;
-                                $('#translation_' + identifier).val(message.translation);
+                        console.log(message.translation);
+                        console.log(identifier);
+                                $('#translation_' + identifier).text(message.translation);
                             }
                             else {
                                 $('#message_' + identifier).before('<div id="box-alert_' + identifier + '" class="col-md-12">' +
