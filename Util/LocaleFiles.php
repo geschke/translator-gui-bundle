@@ -171,7 +171,6 @@ class LocaleFiles
     {
         $filesError = $filesCopied = array();
 
-
         $path = $this->kernel->locateResource('@' . $bundleName);
 
         $fs = new Filesystem();
@@ -189,8 +188,7 @@ class LocaleFiles
                     $completeFileTarget = $path . 'Resources/translations/' . $localeData['domain'] . '.' . $localeTo . '.' . $localeData['format'];
 
                     $fs->copy($completeFileSource, $completeFileTarget);
-                    
-                    
+                                        
                     $filesCopied[] = $localeFile;
                 } catch (IOExceptionInterface $e) {
                     $filesError[] = $localeFile;
@@ -198,11 +196,7 @@ class LocaleFiles
                 }
            }
         }
-        
-        var_dump($localeFile);
-        var_dump($filesError);
-var_dump($filesCopied);
-die;
+        // maybe todo: rescan after copy, but currently not necessary because if a message is written at first, the target language in the xliff file will be overwritten
         if ($localeFile === null) {
             return false;
         }

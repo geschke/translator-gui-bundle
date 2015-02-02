@@ -350,6 +350,15 @@ class LanguageController extends Controller
         $localeTo = $request->get('locale_to');
         $domain = $request->get('domain');
         
+        // todo maybe some more filtering?
+        $filterWarning = false;
+        $localeToFiltered = preg_replace("/[^\w^\d^\-^_]/",'',$localeTo);    
+        if ($localeTo != $localeToFiltered) {
+            // do the process with filtered string and display warning
+            $filterWarning = true;
+            $localeTo = $localeToFiltered;
+        }
+        
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
         $result = $localeFiles->copyMessageFile($bundle, $domain, $localeFrom, $localeTo);
 
@@ -372,16 +381,14 @@ class LanguageController extends Controller
             );
         } else {
             // result > 0
+            $message =  $filterWarning ? $translator->trans('The language file was copied successfully, but the locale is filtered as ') . $localeToFiltered : $translator->trans('The language file was copied successfully.'); 
             $this->get('session')->getFlashBag()->add(
                 'message_success',
-                'The language file was copied successfully.'
+                    $message
             );
         }
-      //  die("hard");
+   
         return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
-
-
-
 
     }
 

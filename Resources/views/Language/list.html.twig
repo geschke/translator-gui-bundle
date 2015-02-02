@@ -135,16 +135,8 @@
         var adminUrl = '{{ path('geschke_admin_translator_gui_homepage') }}';
         $(function () {
 
-         // $('.dropdown-toggle').dropdown();
-/*            $('#chooseTranslationReference').on('shown.bs.dropdown', function () {
-                console.log("something happened");
-            });
-            $('#chooseTranslationReference').on('hidden.bs.dropdown', function () {
-                console.log("something happened again");
-            });
-*/
+       
             $('.chooseLocaleReference').on('click', function () {
-                //console.log("again");
                 localeReference = $(this).attr('data-locale');
 
 
@@ -156,21 +148,13 @@
                 //var domain = $(this).attr('data-domain');
                 var url = adminUrl + 'language-messageref/';
 
-            /*    console.log(identifier);
-                console.log(messageId);
-                console.log(url);
-                console.log(domain);
-                console.log(bundle);
-                console.log(locale);
-                console.log(localeReference);
-*/
+           
                 $.ajax({
                     type: "GET",
                     url: url,
                     data: {bundle: bundle, locale: localeReference, domain: domain, messageId: messageId}
                 })
                         .done(function (msg) {
-                            //console.log(msg);
                             if (msg.success == true) {
                                 $('#form_message_reference').val(msg.messageTranslation.translation);
                             }
@@ -236,8 +220,6 @@
 
                             if (msg.success == true) {
                                 var message = msg.messageTranslation;
-                        console.log(message.translation);
-                        console.log(identifier);
                                 $('#translation_' + identifier).text(message.translation);
                             }
                             else {
