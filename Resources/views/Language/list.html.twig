@@ -96,7 +96,7 @@
                     <h3 class="modal-title" id="myModalLabel"> {% trans %}title.message_translate{% endtrans %}</h3>
                 </div>
                 <div class="modal-body" id="modal-edit-body" data-identifier="" data-domain="">
-
+                    <div class="row">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
                     <div class="dropdown" id="chooseTranslationReference">
@@ -109,10 +109,11 @@
                                 <li><a class="chooseLocaleReference" data-locale="{{ messageFile.locale }}" href="#">{{ messageFile.locale }}</a></li>
                             {% endfor %}
                         </ul>
+                            &nbsp;&nbsp;<span id="localeReference" class="label label-default">{{ localeReference }}</span>
                     </div>
                         <br/>
                         </div>
-
+                    </div>
                     {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 </div>
                 <div class="modal-footer">
@@ -157,6 +158,7 @@
                         .done(function (msg) {
                             if (msg.success == true) {
                                 $('#form_message_reference').val(msg.messageTranslation.translation);
+                                $('#localeReference').html(localeReference);
                             }
                           //  $('#form_message').val(msg.messageTranslation.message);
                           //  $('#form_message_reference').val(msg.messageTranslationReference.message);
