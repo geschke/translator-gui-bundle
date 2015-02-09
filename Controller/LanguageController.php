@@ -52,16 +52,16 @@ class LanguageController extends Controller
 
             if ($result === false) {
                 $this->get('session')->getFlashBag()->add(
-                        'message_error', $translator->trans('message.languagefile_created_error') # Error by creating language file.
+                        'message_error', $translator->trans('message.languagefile_created_error')
                 );
             } elseif ($result === 0) {
                 $this->get('session')->getFlashBag()->add(
-                        'message_warning', $translator->trans('message.languagefile_created_error_no_messages') # No messages found. The language file was not created.
+                        'message_warning', $translator->trans('message.languagefile_created_error_no_messages')
                 );
             } else {
                 // result > 0
                 $this->get('session')->getFlashBag()->add(
-                        'message_success', $translator->trans('message.languagefile_created_success') # 'The language file was created successfully.'
+                        'message_success', $translator->trans('message.languagefile_created_success') 
                 );
             }
             return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
@@ -93,11 +93,11 @@ class LanguageController extends Controller
 
         if ($result) {
             $this->get('session')->getFlashBag()->add(
-                    'message_success', $translator->trans('message.languagefile_deleted_success') # the language file was deleted successfully
+                    'message_success', $translator->trans('message.languagefile_deleted_success') 
             );
         } else {
             $this->get('session')->getFlashBag()->add(
-                    'message_error', $translator->trans('message.languagefile_deleted_error') # error by deleting language file
+                    'message_error', $translator->trans('message.languagefile_deleted_error') 
             );
         }
 
@@ -168,15 +168,14 @@ class LanguageController extends Controller
 
         if ($result === false) {
             $this->get('session')->getFlashBag()->add(
-                    'message_error', $translator->trans('message.language_file_copy_error') // Error by copying language file.')
+                    'message_error', $translator->trans('message.language_file_copy_error')
             );
         } elseif ($result === 0) {
             $this->get('session')->getFlashBag()->add(
-                    'message_warning', $translator->trans('message.language_file_copy_warning') //Something happened. Don\'t know more yet.')
+                    'message_warning', $translator->trans('message.language_file_copy_warning') 
             );
         } else {
-            // result > 0
-            //$message =  $filterWarning ? $translator->trans('The language file was copied successfully, but the locale is filtered as ') . $localeToFiltered : $translator->trans('The language file was copied successfully.'); 
+           
             $message = $filterWarning ? $translator->trans('message.language_file_copy_success_filtered') . $localeToFiltered : $translator->trans('message.language_file_copy_success');
             $this->get('session')->getFlashBag()->add(
                     'message_success', $message

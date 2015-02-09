@@ -76,25 +76,25 @@ class LanguageChoiceType extends AbstractType
             $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www'] . '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'];
         }
 
-        $choices['misc'] = $this->translator->trans('form.languagechoice_label_misc'); //"Miscellaneous, please specify below:";
+        $choices['misc'] = $this->translator->trans('form.languagechoice_label_misc'); 
 
         //asort($choices);
         $builder->add('bundle', 'hidden')
                 ->add('locale', 'choice', array(
-                    'label' => $this->translator->trans('form.languagechoice_label_choose_language'), //"Choose language<br/>\"hm\"<foo>bar</foo>"),
+                    'label' => $this->translator->trans('form.languagechoice_label_choose_language'),
                     'required' => true,
                     'expanded' => true,
                     'choices' => $choices,
                     'empty_data' => null
                 ))
-                ->add('locale_additional', 'text', array('label' => $this->translator->trans('form.languagechoice_label_additional')) // "or another locale definition"))
+                ->add('locale_additional', 'text', array('label' => $this->translator->trans('form.languagechoice_label_additional'))
         );
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
 
             if ($this->submitButton) {
-                $form->add('save', 'submit', array('label' => $this->translator->trans('form.languagechoice_label_submit'))); //"Create new language file")));
+                $form->add('save', 'submit', array('label' => $this->translator->trans('form.languagechoice_label_submit'))); 
             }
         });
     }
