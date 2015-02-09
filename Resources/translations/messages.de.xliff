@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2015-02-09T18:13:49Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2015-02-09T18:50:04Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -161,12 +161,12 @@
       <trans-unit id="bd6cab019eed0d52caec465cb2ab4847c5af49fd" resname="message.language_file_copy_success">
         <source>message.language_file_copy_success</source>
         <target>Die Sprachdatei wurde erfolgreich kopiert.</target>
-        <jms:reference-file line="180">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+        <jms:reference-file line="179">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="81151a971db6ae962d588df4f11b314796f2fec2" resname="message.language_file_copy_success_filtered">
         <source>message.language_file_copy_success_filtered</source>
         <target>Die Sprachdatei wurde kopiert, aber die Sprache wurde gesetzt auf: </target>
-        <jms:reference-file line="180">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+        <jms:reference-file line="179">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="ce6c80e9df61197990cc6ead92a17f0c2771aa0f" resname="message.language_file_copy_warning">
         <source>message.language_file_copy_warning</source>
@@ -190,7 +190,7 @@
       </trans-unit>
       <trans-unit id="285c4655a5fe7ff3065a4f9c7ffe3ca9003bc2f7" resname="message.languagefile_delete_warning">
         <source>message.languagefile_delete_warning</source>
-        <target>Achtung! Die Sprachdatei wird unwiderruflich gelöscht und kann nicht wiederhergestellt werden!</target>
+        <target>Achtung! Die Sprachdatei wird unwiderruflich gelöscht und kann nicht wiederhergestellt werden! Folgende Sprache wird gelöscht: </target>
         <jms:reference-file line="147">views/Bundles/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e5afa7a2352c9da7fb05cdb32ea92ac459677537" resname="message.languagefile_deleted_error">
