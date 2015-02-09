@@ -8,7 +8,8 @@
     "authors": [
         {
             "name":   "Ralf Geschke",
-            "email":  "ralf@kuerbis.org"
+            "email":  "ralf@kuerbis.org",
+            "homepage": "https://www.kuerbis.org"
         }
     ],
     "minimum-stability": "dev",
