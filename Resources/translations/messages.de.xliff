@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2015-02-09T16:44:09Z" source-language="en" target-language="de_DE" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="78cac69b121598ae196cc68de5245104aaf5f202" resname="button.add_new_language">
+        <source>button.add_new_language</source>
+        <target>Neue Sprache anlegen</target>
+        <jms:reference-file line="59">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7ba7a454e138728338d7806bf302bddae150690e" resname="button.close">
+        <source>button.close</source>
+        <target>Schliessen</target>
+        <jms:reference-file line="177">views/Bundles/list.html.twig</jms:reference-file>
+        <jms:reference-file line="216">views/Bundles/list.html.twig</jms:reference-file>
+        <jms:reference-file line="135">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="40889ea803e67b9c7def071e55a0865967165c97" resname="button.languagefile_copy">
+        <source>button.languagefile_copy</source>
+        <target>Kopieren</target>
+        <jms:reference-file line="108">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bb7c73e528b65b83c910fa453100159fb0564716" resname="button.languagefile_copy_cancel">
+        <source>button.languagefile_copy_cancel</source>
+        <target state="new">button.languagefile_copy_cancel</target>
+        <jms:reference-file line="203">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3f7b9675e23dfcb74a704f0642af87168a11a0ef" resname="button.languagefile_copy_confirm">
+        <source>button.languagefile_copy_confirm</source>
+        <target state="new">button.languagefile_copy_confirm</target>
+        <jms:reference-file line="204">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="8c6453a841331cbe5feec6e09a08712e8bf1fa0f" resname="button.languagefile_delete">
+        <source>button.languagefile_delete</source>
+        <target state="new">button.languagefile_delete</target>
+        <jms:reference-file line="112">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="baf74802a8dee0856134f9f5c88e981868249415" resname="button.languagefile_delete_cancel">
+        <source>button.languagefile_delete_cancel</source>
+        <target state="new">button.languagefile_delete_cancel</target>
+        <jms:reference-file line="150">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="472cb03c2532d7fb34caa8756a01086ad0fb3d8d" resname="button.languagefile_delete_confirm">
+        <source>button.languagefile_delete_confirm</source>
+        <target state="new">button.languagefile_delete_confirm</target>
+        <jms:reference-file line="151">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="06b14783e760b47eb2cf630068da42e2a2af1b57" resname="button.languagefile_edit">
+        <source>button.languagefile_edit</source>
+        <target>Bearbeiten</target>
+        <jms:reference-file line="99">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4c0d7116aa7d4570dc09ca6048d859185df27cf7" resname="button.languagefile_rescan">
+        <source>button.languagefile_rescan</source>
+        <target state="new">button.languagefile_rescan</target>
+        <jms:reference-file line="104">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="92a366d983331c12e96dda1223014640f103eb64" resname="button.message_edit">
+        <source>button.message_edit</source>
+        <target>Bearbeiten</target>
+        <jms:reference-file line="55">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2f20433f88339d72e013e8123dbc4b19ee643dee" resname="button.message_save_cancel">
+        <source>button.message_save_cancel</source>
+        <target>Abbrechen</target>
+        <jms:reference-file line="120">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b1829d40e8535feb57e2a9a9b8ae87020e03e5ba" resname="button.message_save_confirm">
+        <source>button.message_save_confirm</source>
+        <target>Speichern</target>
+        <jms:reference-file line="121">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cec3a83c6690ce634c5f1ae7a90ca25f03ea9411" resname="button.toggle_translation_reference">
+        <source>button.toggle_translation_reference</source>
+        <target state="new">button.toggle_translation_reference</target>
+        <jms:reference-file line="104">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="329535fab6a166e2df34ee7205749e574a01ba75" resname="form.languagechoice_label_additional">
+        <source>form.languagechoice_label_additional</source>
+        <target state="new">form.languagechoice_label_additional</target>
+        <jms:reference-file line="90">Form/Type/LanguageChoiceType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="471f120c2039753b886832a97bc729bb1cc86078" resname="form.languagechoice_label_choose_language">
+        <source>form.languagechoice_label_choose_language</source>
+        <target state="new">form.languagechoice_label_choose_language</target>
+        <jms:reference-file line="84">Form/Type/LanguageChoiceType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bcd68376f487408bb45d4e0e6e6a7902533091c5" resname="form.languagechoice_label_misc">
+        <source>form.languagechoice_label_misc</source>
+        <target state="new">form.languagechoice_label_misc</target>
+        <jms:reference-file line="79">Form/Type/LanguageChoiceType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="57e37494df6f7e9adf4ada5da7cb2f4d15a92833" resname="form.languagechoice_label_submit">
+        <source>form.languagechoice_label_submit</source>
+        <target state="new">form.languagechoice_label_submit</target>
+        <jms:reference-file line="97">Form/Type/LanguageChoiceType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="53dcbaa9cd37fd02ba340f1d7d57c7238e8f08dc" resname="headline.action">
+        <source>headline.action</source>
+        <target state="new">headline.action</target>
+        <jms:reference-file line="37">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7da50217efc48d5894c2bedbb6d0c3fffa62cf9f" resname="headline.bundle">
+        <source>headline.bundle</source>
+        <target state="new">headline.bundle</target>
+        <jms:reference-file line="34">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bb38a00f9246401324816f310a01eb16f9322984" resname="headline.bundle_actions">
+        <source>headline.bundle_actions</source>
+        <target state="new">headline.bundle_actions</target>
+        <jms:reference-file line="72">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="45c4f78cd36c348ff4a501e7f07a68e1863a576d" resname="headline.bundle_domain">
+        <source>headline.bundle_domain</source>
+        <target state="new">headline.bundle_domain</target>
+        <jms:reference-file line="69">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="178d6ad29409e50df691709add4f149daebf6ccd" resname="headline.bundle_language">
+        <source>headline.bundle_language</source>
+        <target state="new">headline.bundle_language</target>
+        <jms:reference-file line="66">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="8b20736dc6bc2547d496bc10da17a0052f3d650e" resname="headline.message_action">
+        <source>headline.message_action</source>
+        <target state="new">headline.message_action</target>
+        <jms:reference-file line="33">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="79502947026f3e6073cd24559637dc4ca0f407a4" resname="headline.message_key">
+        <source>headline.message_key</source>
+        <target state="new">headline.message_key</target>
+        <jms:reference-file line="31">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cd16800e2e382a27251db34a2593e2b1dc76dfaa" resname="headline.message_translation">
+        <source>headline.message_translation</source>
+        <target state="new">headline.message_translation</target>
+        <jms:reference-file line="32">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4d92a87c83b609c965030def516668b02374a1ee" resname="home.message">
+        <source>home.message</source>
+        <target state="new">home.message</target>
+        <jms:reference-file line="6">views/Default/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a5a23e1a031f4a8508a9444097bba7c15d4c5765" resname="home.title">
+        <source>home.title</source>
+        <target state="new">home.title</target>
+        <jms:reference-file line="5">views/Default/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c90e9aaa0b6c297773af98dba11465d1e6b4efe6" resname="message.copy_alert_message">
+        <source>message.copy_alert_message</source>
+        <target state="new">message.copy_alert_message</target>
+        <jms:reference-file line="215">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ddba87907193cc91d95ec2b0738d687c41847538" resname="message.language_file_copy_error">
+        <source>message.language_file_copy_error</source>
+        <target state="new">message.language_file_copy_error</target>
+        <jms:reference-file line="171">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bd6cab019eed0d52caec465cb2ab4847c5af49fd" resname="message.language_file_copy_success">
+        <source>message.language_file_copy_success</source>
+        <target state="new">message.language_file_copy_success</target>
+        <jms:reference-file line="180">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="81151a971db6ae962d588df4f11b314796f2fec2" resname="message.language_file_copy_success_filtered">
+        <source>message.language_file_copy_success_filtered</source>
+        <target state="new">message.language_file_copy_success_filtered</target>
+        <jms:reference-file line="180">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ce6c80e9df61197990cc6ead92a17f0c2771aa0f" resname="message.language_file_copy_warning">
+        <source>message.language_file_copy_warning</source>
+        <target state="new">message.language_file_copy_warning</target>
+        <jms:reference-file line="175">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="22ef6c1a43c6c42f01fab7551b9dc02cfaf5113c" resname="message.languagefile_created_error">
+        <source>message.languagefile_created_error</source>
+        <target state="new">message.languagefile_created_error</target>
+        <jms:reference-file line="55">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="da6345e5b6cb428b797a90d76231241c5768ae3c" resname="message.languagefile_created_error_no_messages">
+        <source>message.languagefile_created_error_no_messages</source>
+        <target state="new">message.languagefile_created_error_no_messages</target>
+        <jms:reference-file line="59">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c31887872dac6ff7019d23c28cc8291617fdc440" resname="message.languagefile_created_success">
+        <source>message.languagefile_created_success</source>
+        <target state="new">message.languagefile_created_success</target>
+        <jms:reference-file line="64">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="285c4655a5fe7ff3065a4f9c7ffe3ca9003bc2f7" resname="message.languagefile_delete_warning">
+        <source>message.languagefile_delete_warning</source>
+        <target state="new">message.languagefile_delete_warning</target>
+        <jms:reference-file line="147">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="e5afa7a2352c9da7fb05cdb32ea92ac459677537" resname="message.languagefile_deleted_error">
+        <source>message.languagefile_deleted_error</source>
+        <target state="new">message.languagefile_deleted_error</target>
+        <jms:reference-file line="100">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="9ae17e02c4813c0490abbd2942ac682b905f490e" resname="message.languagefile_deleted_success">
+        <source>message.languagefile_deleted_success</source>
+        <target state="new">message.languagefile_deleted_success</target>
+        <jms:reference-file line="96">translator-gui-bundle/Controller/LanguageController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b41e1dea3a6903dd666e9553a44de8b629499c63" resname="message.languagefile_not_found">
+        <source>message.languagefile_not_found</source>
+        <target>Keine Übersetzungsdatei gefunden </target>
+        <jms:reference-file line="118">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c60e7a64f8b07c26cd594da176b209c54ded54eb" resname="message.loader">
+        <source>message.loader</source>
+        <target state="new">message.loader</target>
+        <jms:reference-file line="172">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="78f810e061e80fbb60a77cfc035d94475dcd4ca8" resname="message.rescan:error">
+        <source>message.rescan:error</source>
+        <target state="new">message.rescan:error</target>
+        <jms:reference-file line="168">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3d36d20573ea6927b160a55f42bd0b71cf777850" resname="message.rescan_success">
+        <source>message.rescan_success</source>
+        <target state="new">message.rescan_success</target>
+        <jms:reference-file line="166">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6058e75bb1ab747135408bf35a4627deb3456b70" resname="message.translation_save_error">
+        <source>message.translation_save_error</source>
+        <target state="new">message.translation_save_error</target>
+        <jms:reference-file line="134">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="265759c238c21a46f4745a78f4cf2b6f08681180" resname="nav.back_bundles">
+        <source>nav.back_bundles</source>
+        <target state="new">nav.back_bundles</target>
+        <jms:reference-file line="12">views/Default/language-add.html.twig</jms:reference-file>
+        <jms:reference-file line="84">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3059dbca9ab2012c15af7f903f6485fc572d72d7" resname="nav.bundles">
+        <source>nav.bundles</source>
+        <target state="new">nav.bundles</target>
+        <jms:reference-file line="34">Resources/views/base_admin.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2f76188e051c53f416c8395e0b64746f4774802f" resname="nav.home">
+        <source>nav.home</source>
+        <target state="new">nav.home</target>
+        <jms:reference-file line="33">Resources/views/base_admin.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d20eaff375746ece7d0ff9c4c37163c532b0b237" resname="title.add_new_language">
+        <source>title.add_new_language</source>
+        <target state="new">title.add_new_language</target>
+        <jms:reference-file line="6">views/Default/language-add.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="94f6b580ad5bca06dec8b8f033d1ab6aad67f64f" resname="title.languagefile_copy">
+        <source>title.languagefile_copy</source>
+        <target state="new">title.languagefile_copy</target>
+        <jms:reference-file line="191">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cf9dba5b007fb318dbc714cbf5e56672ced59e1a" resname="title.languagefile_delete">
+        <source>title.languagefile_delete</source>
+        <target state="new">title.languagefile_delete</target>
+        <jms:reference-file line="144">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c301e105cd0bbbbd26a3734b77303656eb7b3917" resname="title.list_bundles">
+        <source>title.list_bundles</source>
+        <target state="new">title.list_bundles</target>
+        <jms:reference-file line="5">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ea776ba9529d7f5958ea94f1490212a190846865" resname="title.message_translate">
+        <source>title.message_translate</source>
+        <target state="new">title.message_translate</target>
+        <jms:reference-file line="96">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="62c53675a15b19f7e63e50f619d93555c4446e9b" resname="title.messages">
+        <source>title.messages</source>
+        <target state="new">title.messages</target>
+        <jms:reference-file line="6">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a90013a5ba7a2815643d599c4d7cd72d70ec7344" resname="title.rescan_progress">
+        <source>title.rescan_progress</source>
+        <target state="new">title.rescan_progress</target>
+        <jms:reference-file line="163">views/Bundles/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1dda60f410a1a3379282bf4f474b871270bab11b" resname="url.bundles">
+        <source>url.bundles</source>
+        <target state="new">url.bundles</target>
+        <jms:reference-file line="8">views/Default/index.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/Default/language-add.html.twig</jms:reference-file>
+        <jms:reference-file line="84">views/Language/list.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,6 +1,6 @@
 {
     "name":         "geschke/translator-gui-bundle",
-    "description":  "A simple GUI to simplify the translation process of Symfony2 bundles.",
+    "description":  "A nice GUI to simplify the translation process of Symfony2 bundles.",
     "keywords":     ["translation", "multilanguage", "extract", "webinterface", "ui", "i18n", "extraction", "interface"],
     "homepage":     "https://www.kuerbis.org/bundles/TranslatorGUIBundle",
     "type":         "symfony-bundle",

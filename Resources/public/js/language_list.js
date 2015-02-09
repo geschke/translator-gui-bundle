@@ -51,7 +51,7 @@
                         .done(function (msg) {
                             $('#form_message').val(msg.messageTranslation.message);
                             if (msg.messageTranslationReference != null) {
-                                $('#form_message_reference').val(msg.messageTranslationReference.message);
+                                $('#form_message_reference').val(msg.messageTranslationReference.translation);
                             }
                             $('#form_translation').val(msg.messageTranslation.translation);
                         });

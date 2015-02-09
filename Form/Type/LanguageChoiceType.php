@@ -36,7 +36,6 @@ class LanguageChoiceType extends AbstractType
 
     private $container;
     private $translator;
-
     private $submitButton;
 
     /**
@@ -69,36 +68,35 @@ class LanguageChoiceType extends AbstractType
 
         $baseUrl = $assets->getUrl('bundles/geschkeadmintranslatorgui/images/flags/');
 
-        foreach ($localesSmall as $localeChoice => $language ) {
-            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeChoice . '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice ;
+        foreach ($localesSmall as $localeChoice => $language) {
+            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeChoice . '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice;
         }
 
-        foreach ($localesFull as $localeChoice => $localeData ) {
-            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www']. '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'] ;
+        foreach ($localesFull as $localeChoice => $localeData) {
+            $choices[$localeChoice] = '<img src="' . $baseUrl . $localeData['country-www'] . '.gif" alt="locale: ' . $localeChoice . '" /> ' . $localeChoice . ' ' . $localeData['lang-native'];
         }
 
-        $choices['misc'] = "Miscellaneous, please specify below:";
+        $choices['misc'] = $this->translator->trans('form.languagechoice_label_misc'); //"Miscellaneous, please specify below:";
 
         //asort($choices);
         $builder->add('bundle', 'hidden')
-            ->add('locale', 'choice', array(
-                'label'     => $this->translator->trans("Choose language<br/>\"hm\"<foo>bar</foo>"),
-                'required'  => true,
-                'expanded' => true,
-                'choices' => $choices,
-                'empty_data' => null
-            ))
-                ->add('locale_additional', 'text', array('label' => $this->translator->trans("or another locale definition")                )
-                    );
+                ->add('locale', 'choice', array(
+                    'label' => $this->translator->trans('form.languagechoice_label_choose_language'), //"Choose language<br/>\"hm\"<foo>bar</foo>"),
+                    'required' => true,
+                    'expanded' => true,
+                    'choices' => $choices,
+                    'empty_data' => null
+                ))
+                ->add('locale_additional', 'text', array('label' => $this->translator->trans('form.languagechoice_label_additional')) // "or another locale definition"))
+        );
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
-        
+
             if ($this->submitButton) {
-                $form->add('save', 'submit', array('label' => $this->translator->trans("Create new language file")));
+                $form->add('save', 'submit', array('label' => $this->translator->trans('form.languagechoice_label_submit'))); //"Create new language file")));
             }
         });
-
     }
 
     /**
@@ -122,4 +120,5 @@ class LanguageChoiceType extends AbstractType
     {
         return 'languagechoice';
     }
+
 }

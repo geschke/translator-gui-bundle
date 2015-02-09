@@ -30,7 +30,7 @@ class Paginator
     private $pageIdentifier = 'page';
     private $baseUrl;
     private $itemsPerPage;
-    public $isPpaginated = false;
+    public $isPaginated = false;
 
     /**
      * Constructor
