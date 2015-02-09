@@ -13,7 +13,7 @@ This bundle is also available via [composer](https://github.com/composer/compose
 
 ## Documentation ##
 
-[Read the documentation in Resources/doc/](https://github.com/geschke/TranslatorGUIBBundle/blob/master/Resources/doc/index.rst)
+[Read the documentation in Resources/doc/](https://github.com/geschke/TranslatorGUIBBundle/blob/master/Resources/doc/index.md)
 
 ## License ##
 
