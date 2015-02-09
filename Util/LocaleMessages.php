@@ -1,14 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: geschke
- * Date: 17.12.2014
- * Time: 22:19
+
+/*
+ * Copyright 2015 Ralf Geschke <ralf@kuerbis.org>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Util;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 
 class LocaleMessages extends ContainerAware
@@ -40,9 +51,10 @@ class LocaleMessages extends ContainerAware
                 break;
             }
         }
+        if (!$localeFile) {
+            throw new FileNotFoundException();
+        }
 
-        // var_dump($path);
-        // var_dump($localeFile);
         $filename = $path . 'Resources/translations/' . $localeFile['file'];
         return $filename;
     }
@@ -50,26 +62,21 @@ class LocaleMessages extends ContainerAware
     public function getMessage($bundle, $locale, $messageKey, $domain = 'messages')
     {
 
-        $filename = $this->getFilename($bundle, $locale, $domain);
+        try {
+            $filename = $this->getFilename($bundle, $locale, $domain);
+            
+        } catch (FileNotFoundException $e) {
+            return false;
+        }
         // todo maybe: load other than xliff files
         // switch format, if xlf or xliff...
-//        $translator = $this->get('translator');
 
-        //  $handle = fopen($filename,'r');
         $loader = new XliffLoader();
-        //$foo = new XliffFileLoader();
-        $messages = $loader->load($filename, $locale, $domain);
+              $messages = $loader->load($filename, $locale, $domain);
 
 
         $reflect = new \ReflectionClass($messages);
-        //      $props   = $reflect->getProperties();
-
-
-        /*  foreach ($props as $prop) {
-              print $prop->getName() . "\n";
-          }
-  */
-        // var_dump($props);
+      
 
         $refDomains = $reflect->getProperty('domains');
         $refDomains->setAccessible(true);
@@ -91,7 +98,6 @@ class LocaleMessages extends ContainerAware
         $updater = $container->get('jms_translation.updater');
         $filename = $this->getFilename($bundle, $locale, $domain);
         // todo: check filename, does it exist?
-//        $file = '/vol/www/test.geschke.net/htdocs/geschkenet/website/src/Geschke/Bundle/Admin/TranslatorGUIBundle/Resources/translations/messages.de.xliff';
 
         $updater->updateTranslation(
             $filename, 'xliff', $domain, $locale, $messageKey,

@@ -45,8 +45,6 @@
                 $('#modal-edit-body').attr('data-identifier', identifier);
                 modal.modal('show');
 
-
-
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -54,7 +52,9 @@
                 })
                         .done(function (msg) {
                             $('#form_message').val(msg.messageTranslation.message);
-                            $('#form_message_reference').val(msg.messageTranslationReference.message);
+                            if (msg.messageTranslationReference != null) {
+                                $('#form_message_reference').val(msg.messageTranslationReference.message);
+                            }
                             $('#form_translation').val(msg.messageTranslation.translation);
                         });
             });
