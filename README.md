@@ -13,8 +13,8 @@ This bundle is also available via [composer](https://github.com/composer/compose
 
 ## Documentation ##
 
-[Read the documentation in Resources/doc/](https://github.com/geschke/TranslatorGUIBBundle/blob/master/Resources/doc/index.md)
+[Read the documentation in Resources/doc/](https://github.com/geschke/translator-gui-bundle/blob/master/Resources/doc/index.md)
 
 ## License ##
 
-See [Resources/meta/LICENSE](https://github.com/geschke/TranslatorGUIBundle/blob/master/Resources/meta/LICENSE).
+See [Resources/meta/LICENSE](https://github.com/geschke/translator-gui-bundle/blob/master/Resources/meta/LICENSE).
