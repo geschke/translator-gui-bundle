@@ -74,8 +74,7 @@ public function registerBundles()
 
 Enable the Symfony2 translator component in your configuration:
 
-```yaml
-
+``` yaml
 # app/config/config.yml
 framework:
     translator: { fallback: en }
@@ -84,19 +83,19 @@ framework:
 
 Run composer update
 
-```sh
+``` sh
 composer update
 ```
 
 The composer run installs the assets like images, CSS and JavaScript files into the document root folder. If you did run composer update before, you can use the following CLI command to install the assets:
 
-``` php
-
+``` sh
 php app/console assets:install
 
 ```
 
 Go to the URL /_transgui/ , e.g. if you're using the Symfony2 integrated development webserver http://localhost:8000/_transgui/ .
+
 **Be sure that the translation paths of your application is writable by the webserver user!**
 
 
@@ -113,7 +112,7 @@ In the bundle list page you see the list of message files and their action butto
 - Delete: Deletes *all* message files of a locale. 
 
 ### Edit:
-This button opens the list of message to be translated. In the first column there is the original data, in the secong the current translation. At last, the edit button show a modal dialog to submit the translation text. The "message reference" helps to build the translation, especially if you're using message keys instead of message texts as recommended in the Symfony2 Best Practices. The chosen reference language is stored in the session, so you don't need to choose it multiple times. 
+This button opens the list of message to be translated. In the first column there is the original data, in the second the current translation. At last, the edit button show a modal dialog to submit the translation text. The "message reference" helps to build the translation, especially if you're using message keys instead of message texts as recommended in the Symfony2 Best Practices. The chosen reference language is stored in the session, so you don't need to choose it multiple times. 
 
 ## Restrictions and Todo list
 
