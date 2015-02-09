@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * Copyright 2015 Ralf Geschke <ralf@kuerbis.org>
  *
@@ -16,28 +15,106 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Controller;
 
-
+use Geschke\Bundle\Admin\TranslatorGUIBundle\Entity\LanguageFile;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 class LanguageController extends Controller
 {
-   
-    public function rescanTranslationsAction(Request $request)
+
+    /**
+     * Add new language file handler
+     * 
+     * @param Request $request
+     * @return type
+     */
+    public function addLanguageAction(Request $request)
+    {
+        $bundle = $request->get('bundle');
+        $translator = $this->get('translator');
+
+        $languageFile = new LanguageFile();
+        $languageFile->setBundle($bundle);
+
+        $form = $this->createForm('languagechoice', $languageFile);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            $locale = $languageFile->getLocale();
+            $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+
+            $result = $localeFiles->rescanMessageFile($bundle, $locale);
+
+            if ($result === false) {
+                $this->get('session')->getFlashBag()->add(
+                        'message_error', $translator->trans('message.languagefile_created_error') # Error by creating language file.
+                );
+            } elseif ($result === 0) {
+                $this->get('session')->getFlashBag()->add(
+                        'message_warning', $translator->trans('message.languagefile_created_error_no_messages') # No messages found. The language file was not created.
+                );
+            } else {
+                // result > 0
+                $this->get('session')->getFlashBag()->add(
+                        'message_success', $translator->trans('message.languagefile_created_success') # 'The language file was created successfully.'
+                );
+            }
+            return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
+        }
+
+        return $this->render('GeschkeAdminTranslatorGUIBundle:Default:language-add.html.twig', array(
+                    'mainnav' => '',
+                    'form' => $form->createView(),
+                    'bundle' => $bundle,
+        ));
+    }
+
+    /**
+     * Delete language file action
+     * 
+     * @param Request $request
+     * @return type
+     */
+    public function deleteLanguageAction(Request $request)
+    {
+        $bundle = $request->get('bundle');
+        $locale = $request->get('locale');
+
+        $translator = $this->get('translator');
+
+        $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
+        $result = $localeFiles->deleteMessageFile($bundle, $locale);
+
+
+        if ($result) {
+            $this->get('session')->getFlashBag()->add(
+                    'message_success', $translator->trans('message.languagefile_deleted_success') # the language file was deleted successfully
+            );
+        } else {
+            $this->get('session')->getFlashBag()->add(
+                    'message_error', $translator->trans('message.languagefile_deleted_error') # error by deleting language file
+            );
+        }
+
+        return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
+    }
+
+    /**
+     * Rescan and update a message file
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function rescanAction(Request $request)
     {
 
         $bundle = $request->get('bundle');
         $locale = $request->get('locale');
-
-        // var_dump($bundle);
-        //var_dump($locale);
 
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
         $result = $localeFiles->rescanMessageFile($bundle, $locale);
@@ -45,7 +122,7 @@ class LanguageController extends Controller
         if ($result !== false) { // result returns number of found new messages or false, if failed
             $result = true;
         }
-        // sleep(3);
+       
         $response = new JsonResponse();
 
         $response->setData(array(
@@ -57,9 +134,12 @@ class LanguageController extends Controller
         return $response;
     }
 
-  
-  
-
+    /**
+     * Copy message file to a new locale
+     * 
+     * @param Request $request
+     * @return type
+     */
     public function processCopyAction(Request $request)
     {
 
@@ -67,48 +147,43 @@ class LanguageController extends Controller
         $localeFrom = $request->get('locale_from');
         $localeTo = $request->get('locale_to');
         $domain = $request->get('domain');
-        
+
         // todo maybe some more filtering?
         $filterWarning = false;
-        $localeToFiltered = preg_replace("/[^\w^\d^\-^_]/",'',$localeTo);    
+        $localeToFiltered = preg_replace("/[^\w^\d^\-^_]/", '', $localeTo);
         if ($localeTo != $localeToFiltered) {
             // do the process with filtered string and display warning
             $filterWarning = true;
             $localeTo = $localeToFiltered;
         }
-        
+
         $localeFiles = $this->container->get('geschke_bundle_admin_translatorguibundle.locale_files');
         $result = $localeFiles->copyMessageFile($bundle, $domain, $localeFrom, $localeTo);
 
         if ($result !== false) { // result returns number of found new messages or false, if failed
             $result = true;
         }
-        
+
         $translator = $this->get('translator');
 
         if ($result === false) {
             $this->get('session')->getFlashBag()->add(
-                'message_error',
-                $translator->trans('message.language_file_copy_error') // Error by copying language file.')
+                    'message_error', $translator->trans('message.language_file_copy_error') // Error by copying language file.')
             );
-        }
-        elseif ($result === 0) {
+        } elseif ($result === 0) {
             $this->get('session')->getFlashBag()->add(
-                'message_warning',
-                $translator->trans('message.language_file_copy_warning') //Something happened. Don\'t know more yet.')
+                    'message_warning', $translator->trans('message.language_file_copy_warning') //Something happened. Don\'t know more yet.')
             );
         } else {
             // result > 0
             //$message =  $filterWarning ? $translator->trans('The language file was copied successfully, but the locale is filtered as ') . $localeToFiltered : $translator->trans('The language file was copied successfully.'); 
-            $message =  $filterWarning ? $translator->trans('message.language_file_copy_success_filtered') . $localeToFiltered : $translator->trans('message.language_file_copy_success'); 
+            $message = $filterWarning ? $translator->trans('message.language_file_copy_success_filtered') . $localeToFiltered : $translator->trans('message.language_file_copy_success');
             $this->get('session')->getFlashBag()->add(
-                'message_success',
-                    $message
+                    'message_success', $message
             );
         }
-   
-        return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
 
+        return $this->redirect($this->generateUrl('geschke_admin_translator_gui_bundles'));
     }
 
 }

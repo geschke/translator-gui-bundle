@@ -2,6 +2,7 @@ geschke_admin_translator_gui_homepage:
     path:     /
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:index }
 
+
 geschke_admin_translator_gui_bundles:
     path:     /bundles/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Bundle:listBundles }
@@ -9,34 +10,30 @@ geschke_admin_translator_gui_bundles:
 
 geschke_admin_translator_gui_language_add:
     path:     /language-add/
-    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:addLanguage }
-
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:addLanguage }
 
 geschke_admin_translator_gui_language_delete:
     path:     /language-delete/
-    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Default:deleteLanguage }
-
-
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:deleteLanguage }
 
 geschke_admin_translator_gui_language_copy:
     path:     /language-copy/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:processCopy }
 
-
 geschke_admin_translator_gui_language_rescan:
     path:     /language-rescan/
-    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:rescanTranslations }
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:rescan }
 
-geschke_admin_translator_gui_language_messageref:
+
+
+geschke_admin_translator_gui_translation_messageref:
     path:     /language-messageref/
-    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Language:messageReference }
+    defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Translation:messageReference }
     methods:  [GET]
 
-
-geschke_admin_translator_gui_language_edit:
+geschke_admin_translator_gui_translation_edit:
     path:     /language-edit/
     defaults: { _controller: GeschkeAdminTranslatorGUIBundle:Translation:listTranslations }
-
 
 geschke_admin_translator_gui_translation:
     path:     /language-translate/

@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * Copyright 2015 Ralf Geschke <ralf@kuerbis.org>
  *
@@ -25,13 +24,14 @@ use Geschke\Bundle\Admin\TranslatorGUIBundle\Util\LocaleFiles;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Description of BundleController
+ * This is the controller for bundle related methods. 
  *
  * @author geschke
  */
 class BundleController extends Controller
 {
-      /**
+
+    /**
      * Show the current registered bundles with language files
      * 
      * @return type
@@ -53,9 +53,9 @@ class BundleController extends Controller
             $path = $kernel->locateResource('@' . $bundle);
             $messageFiles = $localeFiles->getLanguages($path);
             for ($i = 0; $i < count($messageFiles); $i++) {
-              
+
                 if (!isset($csp_l10n_sys_locales[$messageFiles[$i]['locale']]) &&
-                !isset($csp_l10n_langs[$messageFiles[$i]['locale']])) {
+                        !isset($csp_l10n_langs[$messageFiles[$i]['locale']])) {
                     $messageFiles[$i]['unknown'] = true;
                 }
                 if (strlen($messageFiles[$i]['locale']) > 2) {
@@ -75,15 +75,14 @@ class BundleController extends Controller
         asort($bundleList);
 
         $form = $this->createForm(
-            new LanguageChoiceType($this->container, $translator, false)
+                new LanguageChoiceType($this->container, $translator, false)
         );
 
-        return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig',
-            array(
-                'mainnav' => 'bundles',
-                'bundles' => $bundleList,
-                'form_copy' => $form->createView()
-
-            ));
+        return $this->render('GeschkeAdminTranslatorGUIBundle:Bundles:list.html.twig', array(
+                    'mainnav' => 'bundles',
+                    'bundles' => $bundleList,
+                    'form_copy' => $form->createView()
+        ));
     }
+
 }

@@ -18,6 +18,9 @@
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Entity;
 
+/**
+ * LanguageFile entity
+ */
 class LanguageFile
 {
     protected $locale;
@@ -25,46 +28,92 @@ class LanguageFile
     protected $bundle;
     protected $localeAdditional;
 
+    /**
+     * Get locale value
+     * 
+     * @return string
+     */
     public function getLocale()
     {
         return $this->locale;
     }
 
+    /**
+     * Set locale value
+     * 
+     * @param string $locale
+     */
     public function setLocale($locale)
     {
         $this->locale = $locale;
     }
 
+    /**
+     * Get filename value
+     * 
+     * @return string
+     */
     public function getFilename()
     {
         return $this->filename;
     }
 
+    /**
+     * Set filename value
+     * 
+     * @param string $filename, default null
+     */
     public function setFilename($filename = null)
     {
         $this->filename = $filename;
     }
 
+    /**
+     * Get bundle name
+     * 
+     * @return string
+     */
     public function getBundle()
     {
         return $this->bundle;
     }
 
+    /**
+     * Set bundle name
+     * 
+     * @param string $bundle
+     */
     public function setBundle($bundle = null)
     {
         $this->bundle = $bundle;
     }
 
+    /**
+     * Get user-defined locale string
+     * 
+     * @return string
+     */
     public function getLocaleAdditional()
     {
         return $this->localeAdditional;
     }
 
+    /**
+     * Set user-defined locale string
+     * 
+     * @param string $locale
+     */
     public function setLocaleAdditional($locale)
     {
         $this->localeAdditional = $locale;
     }
 
+    /**
+     * Validation method, returns true if locale is chosen from 
+     * radio button field or with filled additional, i.e. user-defined text field
+     * 
+     * @return bool
+     */
     public function isLanguageChosen()
     {
         if (!$this->locale) {

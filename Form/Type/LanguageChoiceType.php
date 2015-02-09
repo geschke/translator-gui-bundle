@@ -27,6 +27,10 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
+/**
+ * Formular class to build a locale string choser
+ * 
+ */
 class LanguageChoiceType extends AbstractType
 {
 
@@ -35,6 +39,13 @@ class LanguageChoiceType extends AbstractType
 
     private $submitButton;
 
+    /**
+     * LanguageChoiceType constructor
+     * 
+     * @param ContainerInterface $container
+     * @param TranslatorInterface $translator
+     * @param bool $submitButton
+     */
     public function __construct(ContainerInterface $container, TranslatorInterface $translator, $submitButton = true)
     {
         $this->container = $container;
@@ -42,6 +53,12 @@ class LanguageChoiceType extends AbstractType
         $this->submitButton = $submitButton;
     }
 
+    /**
+     * Generate the language chooser formular
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -70,22 +87,25 @@ class LanguageChoiceType extends AbstractType
                 'expanded' => true,
                 'choices' => $choices,
                 'empty_data' => null
-            ))->add('locale_additional', 'text', array('label' => $this->translator->trans("or another locale definition")));
+            ))
+                ->add('locale_additional', 'text', array('label' => $this->translator->trans("or another locale definition")                )
+                    );
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            //$foo = $event->getData();
             $form = $event->getForm();
-                //var_dump($this->submitButton);
-
-            //if (!$product || null === $product->getId()) {
+        
             if ($this->submitButton) {
                 $form->add('save', 'submit', array('label' => $this->translator->trans("Create new language file")));
-                //}
             }
         });
 
     }
 
+    /**
+     * Set data_class default value
+     * 
+     * @param OptionsResolverInterface $resolver
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -93,7 +113,11 @@ class LanguageChoiceType extends AbstractType
         ));
     }
 
-    
+    /**
+     * Get formular name 
+     * 
+     * @return string
+     */
     public function getName()
     {
         return 'languagechoice';

@@ -32,13 +32,19 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 /**
- * Description of TranslationController
+ * The TranslationController handles all translation related functions
  *
  * @author geschke
  */
 class TranslationController extends Controller
 {
 
+    /**
+     * Show list of message by bundle, locale and domain
+     * 
+     * @param Request $request
+     * @return type
+     */
     public function listTranslationsAction(Request $request)
     {
 
@@ -62,7 +68,6 @@ class TranslationController extends Controller
         foreach ($messageFiles as $localeData) {
 
             if ($localeData['locale'] == $locale && $localeData['domain'] == $domain) {
-                //echo "locale file found!";
                 $localeFile = $localeData;
                 break;
             }
@@ -91,9 +96,8 @@ class TranslationController extends Controller
         // switch format, if xlf or xliff...
         $translator = $this->get('translator');
 
-        //  $handle = fopen($filename,'r');
         $loader = new XliffLoader();
-        //$foo = new XliffFileLoader();
+     
         $messages = $loader->load($filename, $locale);
 
 
@@ -117,7 +121,7 @@ class TranslationController extends Controller
 
         $messages = array_slice($messageArray, $offset, $itemsPerPage);
 
-        $uri = $this->get('router')->generate('geschke_admin_translator_gui_language_edit',
+        $uri = $this->get('router')->generate('geschke_admin_translator_gui_translation_edit',
             array('bundle' => $bundle, 'locale' => $locale));
         $paginator->setBaseUrl($uri);
 
@@ -127,7 +131,6 @@ class TranslationController extends Controller
             ->add('locale', 'hidden')
             ->add('message_reference', 'textarea', array('disabled' => true, 'required' => false))
             ->add('message', 'textarea', array('disabled' => true))
-
             ->add('translation', 'textarea')
             ->getForm();
 
@@ -147,7 +150,13 @@ class TranslationController extends Controller
             ));
     }
 
-    
+    /**
+     * Get message, translation and translation reference to show 
+     * in edit formular
+     * 
+     * @param Request $request
+     * @return Response
+     */
     public function translateAction(Request $request)
     {
         $bundle = $request->get('bundle');
@@ -179,14 +188,13 @@ class TranslationController extends Controller
 
             // load message translation reference, ar first it will be english language
             // todo: use session if available with fallback to english
-            $messageInstanceReference = $localeMessages->getMessage($bundle, 'en', $messageId, $domain);
-
-            // just hardcoded here
-            // todo: if file not found, don't fail hardly
+            $localeReference = new LocaleReference($request, $this->get('logger'));
+            
+            $messageInstanceReference = $localeMessages->getMessage($bundle, $localeReference->getLocaleReference(), $messageId, $domain);
 
             if ($messageInstanceReference) {
                 $messageRef = new MessageTranslation();
-                $messageRef->setLocale('en');
+                $messageRef->setLocale($localeReference->getLocaleReference());
                 $messageRef->setMessage($messageInstanceReference->getSourceString());
                 $messageRef->setTranslation($messageInstanceReference->getLocaleString());
                 $messageResponse->setMessageTranslationReference($messageRef);
@@ -205,6 +213,12 @@ class TranslationController extends Controller
         return $response;
     }
 
+    /**
+     * Store the submitted translation into message file
+     * 
+     * @param Request $request
+     * @return Response
+     */
     public function processTranslateAction(Request $request)
     {
 
@@ -243,7 +257,13 @@ class TranslationController extends Controller
         return $response;
     }
 
-    
+    /**
+     * Get message, translation and translation reference to show the 
+     * message reference text
+     * 
+     * @param Request $request
+     * @return Response
+     */
     public function messageReferenceAction(Request $request)
     {
         $bundle = $request->get('bundle');

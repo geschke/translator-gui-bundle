@@ -19,6 +19,9 @@
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Entity;
 
+/**
+ * Message translation entity
+ */
 class MessageTranslation
 {
     protected $locale;
@@ -26,41 +29,80 @@ class MessageTranslation
     protected $messageReference;
     protected $translation;
 
+    /**
+     * Get locale value
+     * 
+     * @return string
+     */
     public function getLocale()
     {
         return $this->locale;
     }
 
+    /**
+     * Set locale string
+     * 
+     * @param string $locale
+     */
     public function setLocale($locale)
     {
         $this->locale = $locale;
     }
 
+    /** 
+     * Get message, i.e. key
+     * 
+     * @return string
+     */
     public function getMessage()
     {
         return $this->message;
     }
 
+    /**
+     * Set message, i.e. key
+     * 
+     * @param string $message
+     */
     public function setMessage($message = null)
     {
         $this->message = $message;
     }
 
+    /**
+     * Get message reference
+     * 
+     * @return string
+     */
     public function getMessageReference()
     {
         return $this->messageReference;
     }
 
+    /**
+     * Set message reference
+     * @param string $message
+     */
     public function setMessagereference($message = null)
     {
         $this->messageReference = $message;
     }
 
+    /**
+     * Get translated message
+     * 
+     * @return string
+     */
     public function getTranslation()
     {
         return $this->translation;
     }
 
+    /**
+     * Set translated message
+     * 
+     * @param string $translation
+     */
     public function setTranslation($translation = null)
     {
         $this->translation = $translation;

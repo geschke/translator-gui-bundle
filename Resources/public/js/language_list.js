@@ -1,18 +1,13 @@
    $(function () {
-
        
             $('.chooseLocaleReference').on('click', function () {
                 localeReference = $(this).attr('data-locale');
-
 
                 var identifier = $('#modalTranslate').children().find('#modal-edit-body').attr('data-identifier');
                 var messageId = ($('#messageItems').children("[data-identifier='" + identifier + "']").attr('data-id'));
                 // todo: check existence of identifier and messageId
 
-               // var locale =  $('#form_locale').val();
-                //var domain = $(this).attr('data-domain');
                 var url = adminUrl + 'language-messageref/';
-
            
                 $.ajax({
                     type: "GET",
@@ -20,10 +15,13 @@
                     data: {bundle: bundle, locale: localeReference, domain: domain, messageId: messageId}
                 })
                         .done(function (msg) {
+                            $('#localeReference').html(localeReference);
                             if (msg.success == true) {
                                 $('#form_message_reference').val(msg.messageTranslation.translation);
-                                $('#localeReference').html(localeReference);
+                            } else {
+                                $('#form_message_reference').val('');
                             }
+                            
                           });
 
             });

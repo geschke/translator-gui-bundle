@@ -19,8 +19,16 @@
 
 namespace Geschke\Bundle\Admin\TranslatorGUIBundle\Extension;
 
+/**
+ * Twig extension needed to implement custom filter
+ */
 class TwigExtension extends \Twig_Extension
 {
+    /**
+     * Get filters contained in this class
+     * 
+     * @return array
+     */
     public function getFilters()
     {
         return array(
@@ -28,11 +36,22 @@ class TwigExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * This method converts a string to its sha1 hash value
+     * 
+     * @param string $string
+     * @return string
+     */
     public function sha1Filter($string)
     {
         return sha1($string);
     }
 
+    /**
+     * Get name of the twig extensions class
+     * 
+     * @return string
+     */
     public function getName()
     {
         return 'geschke_translatorgui_bundle_twig_extension';

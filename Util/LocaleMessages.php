@@ -22,20 +22,33 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use JMS\TranslationBundle\Translation\Loader\XliffLoader;
 
+/**
+ * LocaleMessages service 
+ */
 class LocaleMessages extends ContainerAware
 {
 
     private $kernel;
 
-    //  private $translator;
-
+    /**
+     * Constructor
+     * 
+     * @param type $kernel
+     */
     public function __construct($kernel)
     {
         $this->kernel = $kernel;
-//        $this->translator = $translator;
     }
 
-
+    /**
+     * Get real filename with all directory components of a message xliff file. 
+     * 
+     * @param type $bundle
+     * @param type $locale
+     * @param type $domain
+     * @return string
+     * @throws FileNotFoundException
+     */
     public function getFilename($bundle, $locale, $domain)
     {
         $path = $this->kernel->locateResource('@' . $bundle);
@@ -59,12 +72,19 @@ class LocaleMessages extends ContainerAware
         return $filename;
     }
 
+    /**
+     * Get message object by key
+     * 
+     * @param type $bundle
+     * @param type $locale
+     * @param type $messageKey
+     * @param type $domain
+     * @return bool false or string message
+     */
     public function getMessage($bundle, $locale, $messageKey, $domain = 'messages')
     {
-
         try {
             $filename = $this->getFilename($bundle, $locale, $domain);
-            
         } catch (FileNotFoundException $e) {
             return false;
         }
@@ -72,11 +92,9 @@ class LocaleMessages extends ContainerAware
         // switch format, if xlf or xliff...
 
         $loader = new XliffLoader();
-              $messages = $loader->load($filename, $locale, $domain);
-
+        $messages = $loader->load($filename, $locale, $domain);
 
         $reflect = new \ReflectionClass($messages);
-      
 
         $refDomains = $reflect->getProperty('domains');
         $refDomains->setAccessible(true);
@@ -91,6 +109,19 @@ class LocaleMessages extends ContainerAware
         return false;
     }
 
+    
+    /**
+     * Update translation string by message key.
+     * Currently this method does not throw an exception or responds an error,
+     * so the behaviour is very optimistic. 
+     * 
+     * @param type $bundle
+     * @param type $locale
+     * @param type $messageKey
+     * @param type $translation
+     * @param type $domain
+     * @return bool true
+     */
     public function updateMessage($bundle, $locale, $messageKey, $translation, $domain = 'messages')
     {
         // todo: support another translation formats, not only xliff...
@@ -100,8 +131,7 @@ class LocaleMessages extends ContainerAware
         // todo: check filename, does it exist?
 
         $updater->updateTranslation(
-            $filename, 'xliff', $domain, $locale, $messageKey,
-            $translation
+                $filename, 'xliff', $domain, $locale, $messageKey, $translation
         );
         return true;
     }
