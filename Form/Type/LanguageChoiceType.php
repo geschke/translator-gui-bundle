@@ -35,8 +35,8 @@ class LanguageChoiceType extends AbstractType
 {
 
     private $container;
-    private $translator;
-    private $submitButton;
+    public $translator;
+    public $submitButton;
 
     /**
      * LanguageChoiceType constructor
@@ -78,6 +78,7 @@ class LanguageChoiceType extends AbstractType
 
         $choices['misc'] = $this->translator->trans('form.languagechoice_label_misc'); 
 
+        $that = $this;
         //asort($choices);
         $builder->add('bundle', 'hidden')
                 ->add('locale', 'choice', array(
@@ -90,11 +91,11 @@ class LanguageChoiceType extends AbstractType
                 ->add('locale_additional', 'text', array('label' => $this->translator->trans('form.languagechoice_label_additional'))
         );
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($that) {
             $form = $event->getForm();
 
-            if ($this->submitButton) {
-                $form->add('save', 'submit', array('label' => $this->translator->trans('form.languagechoice_label_submit'))); 
+            if ($that->submitButton) {
+                $form->add('save', 'submit', array('label' => $that->translator->trans('form.languagechoice_label_submit'))); 
             }
         });
     }
